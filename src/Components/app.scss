@@ -1,0 +1,69 @@
+$primaryColor: #6D737F;
+$secondaryColor: #F0FFF2;
+
+body{
+    background-color: $primaryColor;
+}
+.header-container{
+    height: 130px;
+    background-color: $primaryColor;
+    display: flex;
+    justify-content: space-between;
+    
+}
+.header-p-container{
+    display: flex;
+    align-items: center;
+}
+.header-p-container p{
+    color: $secondaryColor;
+    font-size: 24px;
+    padding-right: 28px;
+    margin: 0;
+    font-weight: 900;
+}
+.header-strap{
+    height: 50px;
+    background-color: $secondaryColor;
+    color: $primaryColor;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header-strap p{
+    padding-right: 24px;
+    margin: 0;
+}
+.homepage-greeting-container{
+    margin-top: 30px;
+    text-align: center;
+}
+.homepage-greeting-container h3{
+    color: $secondaryColor;
+    font-size: 18;
+}
+.game-category-container{
+    display: flex;
+}
+.game-category-container img{
+    width: 250px;
+}
+.game-category-container h4{
+    padding-bottom: 20px;
+    border: none;
+    color: $secondaryColor;
+}
+.single-game-container{
+    padding: 20px;
+}
+.single-game-container img{
+    &:hover{
+        border: white 5px solid;
+        cursor: pointer;
+    }
+}
+.homepage-main-container h2{
+    padding-left: 20px;
+    text-decoration: underline;
+}
