@@ -3,8 +3,9 @@ import { useHistory } from 'react-router-dom';
 
 interface iProps {
     category: string;
-    games: { name: string, img: string; }[];
+    games: { name: string, img: string; id: number, genre: string;}[];
 }
+
 
 export default function GamingCategories(props: iProps) {
     const history = useHistory();
@@ -20,9 +21,7 @@ export default function GamingCategories(props: iProps) {
             <div className='game-category-container'>
                 {games.map((game) => {
                     return (
-                        <div onClick={() => {
-                            history.push(`games/${game.name.replace(/\s/g, '')}`);
-                        }} className='single-game-container'>
+                        <div key={game.id} onClick={() => history.push(`games/${game.id}`) } className='single-game-container'>
                             <img src={game.img} alt={game.name} />
                             <h4>
                                 {game.name}
