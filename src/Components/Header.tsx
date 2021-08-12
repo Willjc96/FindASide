@@ -2,6 +2,8 @@ import React from 'react';
 import Logo from '../Assets/FindASideLogo.png';
 import './app.scss';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
+
 
 export default function Header() {
 
@@ -11,9 +13,13 @@ export default function Header() {
             <div className='header-container'>
                 <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
                 <div className='header-p-container'>
-                    <p>Login</p>
+                    <Link to='/login'>
+                        <p>Login</p>
+                    </Link>
                     <p>|</p>
-                    <p>Signup</p>
+                    <Link to='/signup'>
+                        <p>Signup</p>
+                    </Link>
                 </div>
             </div>
             <div className='header-strap'>
