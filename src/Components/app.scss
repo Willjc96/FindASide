@@ -65,6 +65,15 @@ $secondaryColor: #F0FFF2;
         cursor: pointer;
     }
 }
+.single-avatar-container img{
+    &:hover{
+        border: white 5px solid;
+        cursor: pointer;
+    }
+    &:focus{
+        border: red 5px solid;
+    }
+}
 .homepage-main-container h2{
     padding-left: 20px;
     text-decoration: underline;

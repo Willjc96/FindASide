@@ -5,19 +5,22 @@ import Header from './Components/Header';
 import LoginPage from './Pages/LoginPage';
 import SignupPage from './Pages/SignupPage';
 import 'semantic-ui-css/semantic.min.css';
+import { UserContextProvider } from './Context/UserContext';
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <Switch>
-        <Route exact path='/' component={HomePage} />
-        <Route path='/games/*' component={GamePage} />
-        <Route path='/login' component={LoginPage} />
-        <Route path='/signup' component={SignupPage} />
-        <Redirect from='*' to='/' />
-      </Switch>
-    </Router>
+    <UserContextProvider>
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route path='/games/*' component={GamePage} />
+          <Route path='/login' component={LoginPage} />
+          <Route path='/signup' component={SignupPage} />
+          <Redirect from='*' to='/' />
+        </Switch>
+      </Router>
+    </UserContextProvider>
   );
 }
 
