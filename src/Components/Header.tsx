@@ -27,7 +27,6 @@ export default function Header() {
     const history = useHistory();
     return (
         <>
-            {console.log(firebase.auth().currentUser, 'userrrrrr')}
             <div className='header-container'>
                 <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
                 {userContext?.state.logged
@@ -37,7 +36,7 @@ export default function Header() {
 
                             <>
                                 <p>{firebase.auth().currentUser?.displayName}</p>
-                                {/* <img src={firebase.auth().currentUser?.photoURL} alt='avatar'/> */}
+                                {<img src={firebase.auth().currentUser?.photoURL?.toString()} alt='avatar'/> }
                             </>
                             : null
                         }
