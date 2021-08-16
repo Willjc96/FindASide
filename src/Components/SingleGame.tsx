@@ -24,7 +24,6 @@ export default function SingleGame() {
 
     return (
         <div>
-            {console.log(id)}
             {selectedGame 
             ?
             <>
