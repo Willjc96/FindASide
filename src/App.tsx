@@ -4,6 +4,7 @@ import GamePage from './Pages/GamePage';
 import Header from './Components/Header';
 import LoginPage from './Pages/LoginPage';
 import SignupPage from './Pages/SignupPage';
+import LobbyPage from './Pages/LobbyPage';
 import 'semantic-ui-css/semantic.min.css';
 import { UserContextProvider } from './Context/UserContext';
 
@@ -17,6 +18,7 @@ function App() {
           <Route path='/games/*' component={GamePage} />
           <Route path='/login' component={LoginPage} />
           <Route path='/signup' component={SignupPage} />
+          <Route path='/lobby/:gameId/:lobbyId' component={LobbyPage} />
           <Redirect from='*' to='/' />
         </Switch>
       </Router>
