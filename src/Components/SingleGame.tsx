@@ -41,15 +41,13 @@ export default function SingleGame() {
         const lobbyNamesArray = await lobbyIdArray.map(async (lobbyId) => {
             let obj: lobbyObj = {};
             db.doc(lobbyId).collection('Users').get().then((res) => {
-                const filtered = res.docs.filter(async (doc) => {
-                    return doc.data().lobbyName;
-                });
-                obj.lobbyName = filtered[0].data().lobbyName;
-                obj.userId = filtered[0].data().UserId;
-                obj.userName = filtered[0].data().Username;
-                obj.lobbyDescription = filtered[0].data().lobbyDescription;
-                obj.gameId = filtered[0].data().gameId;
-                obj.lobbyCount = res.docs.length.toString();
+                const filtered = res.docs.filter(doc => doc.data().lobbyName);
+                    obj.lobbyName = filtered[0].data().lobbyName;
+                    obj.userId = filtered[0].data().UserId;
+                    obj.userName = filtered[0].data().Username;
+                    obj.lobbyDescription = filtered[0].data().lobbyDescription;
+                    obj.gameId = filtered[0].data().gameId;
+                    obj.lobbyCount = res.docs.length.toString();
             });
             return obj;
         });
