@@ -14,25 +14,30 @@ function LobbyModal() {
 
 
     const addLobby = async () => {
-        if (user.name && user.id && id) {
+        if (lobbyName && lobbyDescription && lobbySize && user.name && user.id) {
             const db = await firestore.collection(id[0]);
             const dbUser = await db.doc(user.id).get();
             if (dbUser.exists) {
                 console.log('Lobby Already Created');
             } else {
                 db.doc(user.id).set({});
-                await db.doc(user.id).collection('Users').doc(user.id).set({ username: user.name, gameId: user.game, userId: user.id, lobbyName: lobbyName, lobbyDescription: lobbyDescription, lobbyAvatar: auth.currentUser?.photoURL, lobbySize: lobbySize});
+                await db.doc(user.id).collection('Users').doc(user.id).set({ username: user.name, gameId: user.game, userId: user.id, lobbyName: lobbyName, lobbyDescription: lobbyDescription, lobbyAvatar: auth.currentUser?.photoURL, lobbySize: lobbySize });
                 userContext?.dispatch({
                     type: 'SET_MODAL_CLOSED'
                 });
             }
         } else {
-            console.log('sign in');
+            console.log('enter lobby name, description and size');
         }
     };
 
 
     const handleInputs = (e: React.ChangeEvent<HTMLInputElement>, setStateFunction: React.Dispatch<React.SetStateAction<string>>) => {
+        if (setStateFunction === setLobbySize) {
+            if (Number(e.target.value) > 30) {
+                e.target.value = '30'
+            }
+        }
         setStateFunction(e.target.value);
     };
 
@@ -57,8 +62,8 @@ function LobbyModal() {
                     <Input onChange={(e) => handleInputs(e, setLobbyDescription)} style={{ width: '100%' }} placeholder='Enter Lobby Description' />
                 </Modal.Description>
                 <Modal.Description>
-                    <p>Enter Lobby Size</p>
-                    <Input onChange={(e) => handleInputs(e, setLobbySize)} style={{ width: '100%' }} placeholder='Enter Lobby Size' />
+                    <p>Enter Lobby Size (max 30)</p>
+                    <Input type='number' min="0" max="30" onChange={(e) => handleInputs(e, setLobbySize)} style={{ width: '100%' }} placeholder='Enter Lobby Size' />
                 </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
