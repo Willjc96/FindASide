@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { games } from '../GamesList';
 import { useParams } from 'react-router-dom';
 import LobbyTable from './LobbyTable';
-import { firestore, auth} from '../Config/firebase';
+import { firestore, auth } from '../Config/firebase';
 import { UserContext } from '../Context/UserContext';
 import LobbyModal from './LobbyModal';
 
@@ -33,6 +33,9 @@ export default function SingleGame() {
     const [selectedGame, setSelectedGame] = useState<null | game>(null);
     const [lobbyList, setLobbyList] = useState<[] | lobbyObj[]>([]);
     const [loading, setLoading] = useState(true);
+    const [show, setShow] = useState(true)
+
+
     const getAllLobbies = useCallback(async () => {
         const db = await firestore.collection(id[0]);
         const docRef = await db.get();
@@ -40,17 +43,20 @@ export default function SingleGame() {
             return lobbyObj.id;
         });
         const lobbyNamesArray = await lobbyIdArray.map(async (lobbyId) => {
+            if (auth.currentUser?.uid === lobbyId) {
+                setShow(false)
+            }
             let obj: lobbyObj = {};
             db.doc(lobbyId).collection('Users').get().then((res) => {
                 const filtered = res.docs.filter(doc => doc.data().lobbyName);
-                    obj.lobbyName = filtered[0].data().lobbyName;
-                    obj.userId = filtered[0].data().userId;
-                    obj.userName = filtered[0].data().username;
-                    obj.lobbyDescription = filtered[0].data().lobbyDescription;
-                    obj.gameId = filtered[0].data().gameId;
-                    obj.lobbyAvatar = filtered[0].data().lobbyAvatar;
-                    obj.lobbyCount = res.docs.length.toString();
-                    obj.lobbySize = filtered[0].data().lobbySize;
+                obj.lobbyName = filtered[0].data().lobbyName;
+                obj.userId = filtered[0].data().userId;
+                obj.userName = filtered[0].data().username;
+                obj.lobbyDescription = filtered[0].data().lobbyDescription;
+                obj.gameId = filtered[0].data().gameId;
+                obj.lobbyAvatar = filtered[0].data().lobbyAvatar;
+                obj.lobbyCount = res.docs.length.toString();
+                obj.lobbySize = filtered[0].data().lobbySize;
             });
             return obj;
         });
@@ -73,6 +79,7 @@ export default function SingleGame() {
         setSelectedGame(gameSelected[0]);
     }, [id]);
 
+
     return (
         <div>
             {userContext?.state.modalOpen && <LobbyModal />}
@@ -84,22 +91,25 @@ export default function SingleGame() {
                         <h3>{selectedGame.genre}</h3>
                         <img src={selectedGame.img} alt='cover' className='single-game-page-image' />
                     </div>
-                    {auth.currentUser?.uid !== undefined 
-                    &&
-                        <div>
-                            <button onClick={() => { userContext?.dispatch({ type: 'SET_MODAL_OPEN' }); }}>Create Lobby</button>
-                        </div>
-                    }
-                    <div className='single-game-page-table-container'>
-                        {
-                            loading
-                                ? <p>'loading'</p>
-                                : <>
-                                    {console.log(lobbyList, 'loblist')}
+
+                    {
+                        loading
+                            ?
+                            <p>'loading'</p>
+                            :
+                            <>
+                                {auth.currentUser?.uid !== undefined && show
+                                    &&
+                                    <div>
+                                        <button onClick={() => { userContext?.dispatch({ type: 'SET_MODAL_OPEN' }); }}>Create Lobby</button>
+                                    </div>
+                                }
+                                <div className='single-game-page-table-container'>
                                     <LobbyTable lobbyList={lobbyList} />
-                                </>
-                        }
-                    </div>
+                                </div>
+
+                            </>
+                    }
                 </>
                 :
                 <p>Loading</p>}
