@@ -5,14 +5,14 @@ import { games } from '../GamesList';
 
 export default function Homepage() {
 
-    const sports = games.filter(el => el.genre === 'sport');
-    const shooter = games.filter(el => el.genre === 'shooter');
+    const sports = games.filter(el => el.genre === 'Sport');
+    const shooter = games.filter(el => el.genre === 'Shooter');
     
     return (
         <div className='page-container'>
             <HomepageGreeting />
-            <GamingCategories category='sports' games={sports} />
-            <GamingCategories category='shooter' games={shooter} />
+            <GamingCategories category='Sports' games={sports} />
+            <GamingCategories category='Shooter' games={shooter} />
         </div>
     );
 }

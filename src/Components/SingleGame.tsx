@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { games } from '../GamesList';
 import { useParams } from 'react-router-dom';
 import LobbyTable from './LobbyTable';
-import { auth, firestore } from '../Config/firebase';
+import { firestore, auth} from '../Config/firebase';
 import { UserContext } from '../Context/UserContext';
 import LobbyModal from './LobbyModal';
 
@@ -22,6 +22,8 @@ interface lobbyObj {
     lobbyDescription?: string;
     gameId?: string;
     lobbyCount?: string;
+    lobbyAvatar?: string;
+    lobbySize?: string;
 }
 
 
@@ -31,7 +33,6 @@ export default function SingleGame() {
     const [selectedGame, setSelectedGame] = useState<null | game>(null);
     const [lobbyList, setLobbyList] = useState<[] | lobbyObj[]>([]);
     const [loading, setLoading] = useState(true);
-    const user = { name: auth.currentUser?.displayName, game: id[0], id: auth.currentUser?.uid };
     const getAllLobbies = useCallback(async () => {
         const db = await firestore.collection(id[0]);
         const docRef = await db.get();
@@ -43,11 +44,13 @@ export default function SingleGame() {
             db.doc(lobbyId).collection('Users').get().then((res) => {
                 const filtered = res.docs.filter(doc => doc.data().lobbyName);
                     obj.lobbyName = filtered[0].data().lobbyName;
-                    obj.userId = filtered[0].data().UserId;
-                    obj.userName = filtered[0].data().Username;
+                    obj.userId = filtered[0].data().userId;
+                    obj.userName = filtered[0].data().username;
                     obj.lobbyDescription = filtered[0].data().lobbyDescription;
                     obj.gameId = filtered[0].data().gameId;
+                    obj.lobbyAvatar = filtered[0].data().lobbyAvatar;
                     obj.lobbyCount = res.docs.length.toString();
+                    obj.lobbySize = filtered[0].data().lobbySize;
             });
             return obj;
         });
@@ -81,9 +84,12 @@ export default function SingleGame() {
                         <h3>{selectedGame.genre}</h3>
                         <img src={selectedGame.img} alt='cover' className='single-game-page-image' />
                     </div>
-                    <div>
-                        <button onClick={() => { userContext?.dispatch({ type: 'SET_MODAL_OPEN' }); }}>Create Lobby</button>
-                    </div>
+                    {auth.currentUser?.uid !== undefined 
+                    &&
+                        <div>
+                            <button onClick={() => { userContext?.dispatch({ type: 'SET_MODAL_OPEN' }); }}>Create Lobby</button>
+                        </div>
+                    }
                     <div className='single-game-page-table-container'>
                         {
                             loading

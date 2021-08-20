@@ -9,6 +9,7 @@ function LobbyModal() {
     let id: string = useParams();
     const [lobbyName, setLobbyName] = useState('');
     const [lobbyDescription, setLobbyDescription] = useState('');
+    const [lobbySize, setLobbySize] = useState('');
     const user = { name: auth.currentUser?.displayName, game: id[0], id: auth.currentUser?.uid };
 
 
@@ -20,7 +21,7 @@ function LobbyModal() {
                 console.log('Lobby Already Created');
             } else {
                 db.doc(user.id).set({});
-                await db.doc(user.id).collection('Users').doc(user.id).set({ Username: user.name, gameId: user.game, UserId: user.id, lobbyName: lobbyName, lobbyDescription: lobbyDescription });
+                await db.doc(user.id).collection('Users').doc(user.id).set({ username: user.name, gameId: user.game, userId: user.id, lobbyName: lobbyName, lobbyDescription: lobbyDescription, lobbyAvatar: auth.currentUser?.photoURL, lobbySize: lobbySize});
                 userContext?.dispatch({
                     type: 'SET_MODAL_CLOSED'
                 });
@@ -54,6 +55,10 @@ function LobbyModal() {
                 <Modal.Description>
                     <p>Enter Lobby Description</p>
                     <Input onChange={(e) => handleInputs(e, setLobbyDescription)} style={{ width: '100%' }} placeholder='Enter Lobby Description' />
+                </Modal.Description>
+                <Modal.Description>
+                    <p>Enter Lobby Size</p>
+                    <Input onChange={(e) => handleInputs(e, setLobbySize)} style={{ width: '100%' }} placeholder='Enter Lobby Size' />
                 </Modal.Description>
             </Modal.Content>
             <Modal.Actions>

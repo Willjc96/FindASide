@@ -8,6 +8,8 @@ interface LobbyObject {
   lobbyDescription?: string;
   gameId?: string;
   lobbyCount?: string;
+  lobbyAvatar?: string;
+  lobbySize?: string;
 }
 interface IProps {
   lobbyList: LobbyObject[];
@@ -32,7 +34,7 @@ function TableExampleCollapsing(props: IProps) {
           <Table.Row>
             <Table.Cell>
               <Header as='h4' image>
-                {/* <Image src='/images/avatar/small/lena.png' rounded size='mini' /> */}
+                <Image src={lobby.lobbyAvatar} rounded size='mini' />
                 <Header.Content>
                   {lobby.userName}
                 </Header.Content>
@@ -40,7 +42,7 @@ function TableExampleCollapsing(props: IProps) {
             </Table.Cell>
             <Table.Cell>{lobby.lobbyName}</Table.Cell>
             <Table.Cell>{lobby.lobbyDescription}</Table.Cell>
-            <Table.Cell>{`${lobby.lobbyCount}/30`}</Table.Cell>
+            <Table.Cell>{`${lobby.lobbyCount}/${lobby.lobbySize}`}</Table.Cell>
             <Table.Cell>
               <Link to={`/lobby/${lobby.gameId}/${lobby.userId}`}>
                 <Button animated='fade'>

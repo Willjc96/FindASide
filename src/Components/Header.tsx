@@ -17,6 +17,7 @@ export default function Header() {
                 userContext?.dispatch({
                     type: 'LOG_OUT'
                 });
+                history.push('/')
             })
             .catch(error => {
                 console.log(error);
