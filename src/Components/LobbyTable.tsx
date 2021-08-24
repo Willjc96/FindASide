@@ -55,29 +55,6 @@ function TableExampleCollapsing(props: IProps) {
 
         </Table.Body>);
       })}
-      {/* <Table.Body>
-        <Table.Row>
-          <Table.Cell>
-            <Header as='h4' image>
-              <Image src='/images/avatar/small/lena.png' rounded size='mini' />
-              <Header.Content>
-                Lena
-                <Header.Subheader>Human Resources</Header.Subheader>
-              </Header.Content>
-            </Header>
-          </Table.Cell>
-          <Table.Cell>Test Lobby</Table.Cell>
-          <Table.Cell>18+</Table.Cell>
-          <Table.Cell>0/30</Table.Cell>
-          <Table.Cell>
-            <Button animated='fade'>
-              <Button.Content visible>Click To Join</Button.Content>
-              <Button.Content hidden>Join Now</Button.Content>
-            </Button>
-          </Table.Cell>
-        </Table.Row>
-
-      </Table.Body> */}
     </Table>
   );
 }
