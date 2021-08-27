@@ -18,6 +18,7 @@ export default function SingleLobby() {
     const [disabled, setDisabled] = useState(false)
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
 
+
     const getDatabaseInfo = useCallback(async () => {
         const firstCollection = await firestore.collection(params.gameId);
         firstCollection.doc(params.lobbyId).collection('Users').get().then((res) => {

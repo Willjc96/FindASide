@@ -8,6 +8,7 @@ import { Button } from 'semantic-ui-react';
 import firebase from 'firebase';
 
 
+
 export default function Header() {
     const userContext = useContext(UserContext);
     const handleLogOut = () => {
@@ -22,7 +23,6 @@ export default function Header() {
             .catch(error => {
                 console.log(error);
             });
-
     };
 
     const history = useHistory();
@@ -37,7 +37,7 @@ export default function Header() {
 
                             <>
                                 <p>{firebase.auth().currentUser?.displayName}</p>
-                                {<img src={firebase.auth().currentUser?.photoURL?.toString()} alt='avatar'/> }
+                                {<img src={firebase.auth().currentUser?.photoURL?.toString()} alt='avatar' />}
                             </>
                             : null
                         }

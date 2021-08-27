@@ -24,6 +24,7 @@ interface lobbyObj {
     lobbyCount?: string;
     lobbyAvatar?: string;
     lobbySize?: string;
+    lobbyDifficulty?: string;
 }
 
 
@@ -57,6 +58,7 @@ export default function SingleGame() {
                 obj.lobbyAvatar = filtered[0].data().lobbyAvatar;
                 obj.lobbyCount = res.docs.length.toString();
                 obj.lobbySize = filtered[0].data().lobbySize;
+                obj.lobbyDifficulty = filtered[0].data().lobbyDifficulty;
             });
             return obj;
         });

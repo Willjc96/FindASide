@@ -10,6 +10,7 @@ interface LobbyObject {
   lobbyCount?: string;
   lobbyAvatar?: string;
   lobbySize?: string;
+  lobbyDifficulty?: string;
 }
 interface IProps {
   lobbyList: LobbyObject[];
@@ -25,12 +26,13 @@ function TableExampleCollapsing(props: IProps) {
           <Table.HeaderCell>Hosts Name</Table.HeaderCell>
           <Table.HeaderCell>Lobby Name</Table.HeaderCell>
           <Table.HeaderCell>Lobby Description</Table.HeaderCell>
+          <Table.HeaderCell>Lobby Skill Rating</Table.HeaderCell>
           <Table.HeaderCell>Lobby Size</Table.HeaderCell>
           <Table.HeaderCell>Join</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       {lobbyList.map((lobby) => {
-        return (<Table.Body>
+        return (<Table.Body key={lobby.userId}>
           <Table.Row>
             <Table.Cell>
               <Header as='h4' image>
@@ -42,6 +44,7 @@ function TableExampleCollapsing(props: IProps) {
             </Table.Cell>
             <Table.Cell>{lobby.lobbyName}</Table.Cell>
             <Table.Cell>{lobby.lobbyDescription}</Table.Cell>
+            <Table.Cell>{lobby.lobbyDifficulty}</Table.Cell>
             <Table.Cell>{`${lobby.lobbyCount}/${lobby.lobbySize}`}</Table.Cell>
             <Table.Cell>
               <Link to={`/lobby/${lobby.gameId}/${lobby.userId}`}>
