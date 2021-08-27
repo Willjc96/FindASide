@@ -3,7 +3,7 @@ import SingleGame from '../Components/SingleGame';
 
 export default function GamePage() {
     return (
-        <div className='page-container'>
+        <div className='full-page-container'>
             <SingleGame />
         </div>
     );

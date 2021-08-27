@@ -10,7 +10,7 @@ import firebase from 'firebase';
 
 
 export default function Header() {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     const userContext = useContext(UserContext);
     const handleLogOut = () => {
         firebase.auth().signOut()
@@ -19,8 +19,8 @@ export default function Header() {
                 userContext?.dispatch({
                     type: 'LOG_OUT'
                 });
-                setLoading(false)
-                history.push('/')
+                setLoading(false);
+                history.push('/');
             })
             .catch(error => {
                 console.log(error);
@@ -32,10 +32,10 @@ export default function Header() {
     useEffect(() => {
         setTimeout(() => {
             if (firebase.auth().currentUser) {
-                setLoading(true)
+                setLoading(true);
             }
-        }, 400)
-    }, [loading])
+        }, 400);
+    }, [loading]);
 
     return (
         <>
@@ -45,10 +45,12 @@ export default function Header() {
                     ?
                     <>
                         {typeof firebase.auth().currentUser?.photoURL === 'string' ?
-
                             <>
                                 <p>{firebase.auth().currentUser?.displayName}</p>
-                                {<img src={firebase.auth().currentUser?.photoURL?.toString()} alt='avatar' />}
+                                <Link to='/myaccount'>
+
+                                    {<img src={firebase.auth().currentUser?.photoURL?.toString()} alt='avatar' />}
+                                </Link>
                             </>
                             : null
                         }

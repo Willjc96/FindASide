@@ -34,7 +34,7 @@ export default function SingleGame() {
     const [selectedGame, setSelectedGame] = useState<null | game>(null);
     const [lobbyList, setLobbyList] = useState<[] | lobbyObj[]>([]);
     const [loading, setLoading] = useState(true);
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(true);
 
 
     const getAllLobbies = useCallback(async () => {
@@ -45,7 +45,7 @@ export default function SingleGame() {
         });
         const lobbyNamesArray = await lobbyIdArray.map(async (lobbyId) => {
             if (auth.currentUser?.uid === lobbyId) {
-                setShow(false)
+                setShow(false);
             }
             let obj: lobbyObj = {};
             db.doc(lobbyId).collection('Users').get().then((res) => {
@@ -77,10 +77,13 @@ export default function SingleGame() {
     }, [getAllLobbies]);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         const gameSelected = games.filter(el => el.id === Number(id[0]));
         setSelectedGame(gameSelected[0]);
     }, [id]);
-
 
     return (
         <div>
