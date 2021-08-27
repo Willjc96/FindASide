@@ -34,7 +34,7 @@ export default function Header() {
             if (firebase.auth().currentUser) {
                 setLoading(true)
             }
-        }, 600)
+        }, 400)
     }, [loading])
 
     return (
