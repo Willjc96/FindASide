@@ -22,6 +22,7 @@ export default function LoginPage() {
                 userContext?.dispatch({
                     type: 'LOG_IN'
                 });
+                localStorage.setItem('currentUser', JSON.stringify({ token: 'jwt will come later', name: email }));
                 history.push('/');
             })
             .catch(error => {

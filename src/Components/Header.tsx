@@ -17,7 +17,9 @@ export default function Header() {
                 userContext?.dispatch({
                     type: 'LOG_OUT'
                 });
-                history.push('/')
+                localStorage.removeItem('currentUser');
+                window.location.reload();
+                history.push('/');
             })
             .catch(error => {
                 console.log(error);
@@ -30,19 +32,18 @@ export default function Header() {
         <>
             <div className='header-container'>
                 <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
-                {userContext?.state.logged
+                {userContext?.state.logged || localStorage.currentUser?.length > 0
                     ?
                     <>
-                        {typeof firebase.auth().currentUser?.photoURL === 'string' ?
-
-                            <>
-                                <p>{firebase.auth().currentUser?.displayName}</p>
-                                {<img src={firebase.auth().currentUser?.photoURL?.toString()} alt='avatar'/> }
-                            </>
-                            : null
+                        {
+                            typeof firebase.auth().currentUser?.photoURL === 'string'
+                                ?
+                                <>
+                                    <p>{firebase.auth().currentUser?.displayName}</p>
+                                    {<img src={firebase.auth().currentUser?.photoURL?.toString()} alt='avatar' />}
+                                </>
+                                : null
                         }
-
-
                         <Button onClick={handleLogOut}>Log Out</Button>
                     </>
                     :
