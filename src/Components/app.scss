@@ -47,6 +47,7 @@ $secondaryColor: #F0FFF2;
 }
 .game-category-container{
     display: flex;
+    overflow: scroll;
 }
 .game-category-container img{
     width: 250px;
@@ -98,5 +99,5 @@ $secondaryColor: #F0FFF2;
 }
 .page-container {
     background-color: $primaryColor;
-    height: 100vh;
+    height: 100%;
 }
