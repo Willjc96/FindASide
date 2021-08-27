@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Logo from '../Assets/FindASideLogo.png';
 import './app.scss';
 import { useHistory } from 'react-router';
@@ -10,6 +10,7 @@ import firebase from 'firebase';
 
 
 export default function Header() {
+    const [loading, setLoading] = useState(false)
     const userContext = useContext(UserContext);
     const handleLogOut = () => {
         firebase.auth().signOut()
@@ -18,6 +19,7 @@ export default function Header() {
                 userContext?.dispatch({
                     type: 'LOG_OUT'
                 });
+                setLoading(false)
                 history.push('/')
             })
             .catch(error => {
@@ -26,11 +28,20 @@ export default function Header() {
     };
 
     const history = useHistory();
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (firebase.auth().currentUser) {
+                setLoading(true)
+            }
+        }, 600)
+    }, [loading])
+
     return (
         <>
             <div className='header-container'>
                 <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
-                {userContext?.state.logged
+                {loading || userContext?.state.logged
                     ?
                     <>
                         {typeof firebase.auth().currentUser?.photoURL === 'string' ?
@@ -41,8 +52,6 @@ export default function Header() {
                             </>
                             : null
                         }
-
-
                         <Button onClick={handleLogOut}>Log Out</Button>
                     </>
                     :
