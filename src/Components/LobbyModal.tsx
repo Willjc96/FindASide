@@ -26,8 +26,10 @@ function LobbyModal() {
                 userContext?.dispatch({
                     type: 'SET_MODAL_CLOSED'
                 });
-                window.location.reload()
             }
+            setTimeout(() => {
+                window.location.reload()
+            }, 10)
         } else {
             console.log('enter lobby name, description and size');
         }
