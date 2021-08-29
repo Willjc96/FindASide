@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { firestore, auth } from '../Config/firebase';
+import { useHistory } from 'react-router-dom';
 
 interface DocumentData {
     username?: string;
@@ -29,6 +30,8 @@ export default function SingleLobby() {
     const [usersArray, setUsersArray] = useState<[] | DocumentData[]>([]);
     const [disabled, setDisabled] = useState(false);
     const [full, setFull] = useState(false);
+    const [host, setHost] = useState(false);
+    const history = useHistory();
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
 
 
@@ -78,6 +81,9 @@ export default function SingleLobby() {
             const check = await (await firstCollection.doc(params.lobbyId).collection('Users').doc(user.userId).get()).data();
             if (check !== undefined) {
                 setDisabled(true)
+                if (check.lobbySize) {
+                    setHost(true)
+                }
             }
         }
         check()
@@ -95,12 +101,19 @@ export default function SingleLobby() {
         }
     }
 
+    const deleteLobby = async () => {
+        const collection = await firestore.collection(params.gameId).doc(params.lobbyId);
+        await collection.delete();
+        history.push(`/games/${params.gameId}`)
+    }
+
     return (
         <div>
             {usersArray
                 ?
                 <>
                     <button disabled={disabled} onClick={joinLobby}>Join Lobby</button>
+                    {host && <button onClick={deleteLobby}>Delete Lobby</button>}
                     {full && <p>Lobby is full</p>}
                     {usersArray.map((user) => {
                         if (user.lobbyName) {
