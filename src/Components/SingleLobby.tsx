@@ -2,10 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { firestore, auth } from '../Config/firebase';
 import { useHistory } from 'react-router-dom';
+import { Popup } from 'semantic-ui-react'
 
 interface DocumentData {
     username?: string;
     lobbyName?: string;
+    userId?: string;
 }
 
 interface params {
@@ -104,7 +106,15 @@ export default function SingleLobby() {
     const deleteLobby = async () => {
         const collection = await firestore.collection(params.gameId).doc(params.lobbyId);
         await collection.delete();
-        history.push(`/games/${params.gameId}`)
+        history.push(`/games/${params.gameId}`);
+    }
+
+    const removeUser = async (username: string | undefined) => {
+        if (typeof username === 'string') {
+            const filter = usersArray.filter(item => item.username === username);
+            await firestore.collection(params.gameId).doc(params.lobbyId).collection('Users').doc(filter[0].userId).delete();
+            window.location.reload();
+        }
     }
 
     return (
@@ -113,13 +123,13 @@ export default function SingleLobby() {
                 ?
                 <>
                     <button disabled={disabled} onClick={joinLobby}>Join Lobby</button>
-                    {host && <button onClick={deleteLobby}>Delete Lobby</button>}
+                    {host && <Popup content='CLICK TO DELETE LOBBY' trigger={<button onClick={deleteLobby}>Delete Lobby</button>} />}
                     {full && <p>Lobby is full</p>}
                     {usersArray.map((user) => {
                         if (user.lobbyName) {
                             return <p>Host {user.username}</p>
                         } else {
-                            return <p> UserName - {user.username}</p>
+                            return <Popup content='CLICK TO REMOVE USER' trigger={<p onClick={() => removeUser(user.username)}>{user.username}</p>} />
                         }
 
                     })}
