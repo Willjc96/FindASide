@@ -50,7 +50,7 @@ export default function LoginPage() {
                     <label>
                         Password
                     </label>
-                    <input onChange={(e) => updateFields(e, setPassword)} placeholder='Enter Password' />
+                    <input onChange={(e) => updateFields(e, setPassword)} placeholder='Enter Password' type='password' />
                 </Form.Field>
                 {error ? <p>{error}</p> : null}
                 <Button type='submit'>Submit</Button>
