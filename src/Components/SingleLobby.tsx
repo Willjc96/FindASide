@@ -127,7 +127,14 @@ export default function SingleLobby() {
                     {full && <p>Lobby is full</p>}
                     {usersArray.map((user) => {
                         if (user.lobbyName) {
-                            return <p>{user.username}</p>
+                            return (
+                                <div style={{ display: 'flex' }}>
+                                    <p>{user.username}</p>
+                                    <Icon name='star' />
+                                    <p>HOST</p>
+                                </div>
+
+                            )
                         } else if (host) {
                             return (
                                 <div style={{ display: 'flex' }}>
@@ -135,7 +142,6 @@ export default function SingleLobby() {
                                     <Popup content='CLICK TO REMOVE USER' trigger={<Icon name='trash alternate outline' onClick={() => removeUser(user.username)} />} />
                                 </div>
                             )
-
                         } else {
                             return <p>{user.username}</p>
                         }
