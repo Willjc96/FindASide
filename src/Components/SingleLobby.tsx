@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { firestore, auth } from '../Config/firebase';
 import { useHistory } from 'react-router-dom';
-import { Popup } from 'semantic-ui-react'
+import { Popup, Icon } from 'semantic-ui-react'
 
 interface DocumentData {
     username?: string;
@@ -127,9 +127,15 @@ export default function SingleLobby() {
                     {full && <p>Lobby is full</p>}
                     {usersArray.map((user) => {
                         if (user.lobbyName) {
-                            return <p>Host {user.username}</p>
+                            return <p>{user.username}</p>
                         } else if (host) {
-                            return <Popup content='CLICK TO REMOVE USER' trigger={<p onClick={() => removeUser(user.username)}>{user.username}</p>} />
+                            return (
+                                <div style={{ display: 'flex' }}>
+                                    <p>{user.username}</p>
+                                    <Popup content='CLICK TO REMOVE USER' trigger={<Icon name='trash alternate outline' onClick={() => removeUser(user.username)} />} />
+                                </div>
+                            )
+
                         } else {
                             return <p>{user.username}</p>
                         }
