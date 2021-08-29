@@ -128,8 +128,10 @@ export default function SingleLobby() {
                     {usersArray.map((user) => {
                         if (user.lobbyName) {
                             return <p>Host {user.username}</p>
-                        } else {
+                        } else if (host) {
                             return <Popup content='CLICK TO REMOVE USER' trigger={<p onClick={() => removeUser(user.username)}>{user.username}</p>} />
+                        } else {
+                            return <p>{user.username}</p>
                         }
 
                     })}
