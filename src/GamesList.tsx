@@ -140,7 +140,7 @@ export const games = [
     {
         name: 'Overwatch',
         img: 'https://www.mobygames.com/images/covers/l/340276-overwatch-origins-edition-windows-front-cover.jpg',
-        id: 24,
+        id: 31,
         genre: 'Shooter',
     },
     {
