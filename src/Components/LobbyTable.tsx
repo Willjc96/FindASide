@@ -28,7 +28,7 @@ function TableExampleCollapsing(props: IProps) {
           <Table.HeaderCell>Lobby Description</Table.HeaderCell>
           <Table.HeaderCell>Lobby Skill Rating</Table.HeaderCell>
           <Table.HeaderCell>Lobby Size</Table.HeaderCell>
-          <Table.HeaderCell>Join</Table.HeaderCell>
+          <Table.HeaderCell>View</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       {lobbyList.map((lobby) => {

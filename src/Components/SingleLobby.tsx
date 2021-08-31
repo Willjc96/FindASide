@@ -33,6 +33,7 @@ export default function SingleLobby() {
     const [disabled, setDisabled] = useState(false);
     const [full, setFull] = useState(false);
     const [host, setHost] = useState(false);
+    const [leaveOption, setLeaveOption] = useState(false)
     const history = useHistory();
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
 
@@ -83,6 +84,7 @@ export default function SingleLobby() {
             const check = await (await firstCollection.doc(params.lobbyId).collection('Users').doc(user.userId).get()).data();
             if (check !== undefined) {
                 setDisabled(true)
+                setLeaveOption(true)
                 if (check.lobbySize) {
                     setHost(true)
                 }
@@ -101,6 +103,7 @@ export default function SingleLobby() {
         } else {
             console.log('already joined')
         }
+        window.location.reload()
     }
 
     const deleteLobby = async () => {
@@ -117,6 +120,11 @@ export default function SingleLobby() {
         }
     }
 
+    const leaveLobby = async () => {
+        await firestore.collection(params.gameId).doc(params.lobbyId).collection('Users').doc(auth.currentUser?.uid).delete();
+        history.push(`/games/${params.gameId}`)
+    }
+
     return (
         <div>
             {usersArray
@@ -124,11 +132,12 @@ export default function SingleLobby() {
                 <>
                     <button disabled={disabled} onClick={joinLobby}>Join Lobby</button>
                     {host && <Popup content='CLICK TO DELETE LOBBY' trigger={<button onClick={deleteLobby}>Delete Lobby</button>} />}
+                    {!host && leaveOption && <Popup content='CLICK TO LEAVE LOBBY' trigger={<button onClick={leaveLobby}>Leave Lobby</button>} />}
                     {full && <p>Lobby is full</p>}
                     {usersArray.map((user) => {
                         if (user.lobbyName) {
                             return (
-                                <div style={{ display: 'flex' }}>
+                                <div key={user.userId} style={{ display: 'flex' }}>
                                     <p>{user.username}</p>
                                     <Icon name='star' />
                                     <p>HOST</p>
@@ -137,13 +146,13 @@ export default function SingleLobby() {
                             )
                         } else if (host) {
                             return (
-                                <div style={{ display: 'flex' }}>
+                                <div key={user.userId} style={{ display: 'flex' }}>
                                     <p>{user.username}</p>
                                     <Popup content='CLICK TO REMOVE USER' trigger={<Icon name='trash alternate outline' onClick={() => removeUser(user.username)} />} />
                                 </div>
                             )
                         } else {
-                            return <p>{user.username}</p>
+                            return <p key={user.userId}>{user.username}</p>
                         }
 
                     })}
