@@ -83,6 +83,10 @@ $secondaryColor: #F0FFF2;
     display: flex;
     flex-direction: column;
 }
+.single-game-page-container h1 {
+    text-align: center;
+    padding-top: 50px;
+}
 .single-game-page-image {
     width: 20%;
     align-self: flex-end;
@@ -104,4 +108,14 @@ $secondaryColor: #F0FFF2;
 .full-page-container {
     background-color: $primaryColor;
     height: 100vh;
+}
+.loading-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.loading-container h3 {
+    text-align: center;
+    margin-top: 100px;
+    margin-left: 2%;
 }

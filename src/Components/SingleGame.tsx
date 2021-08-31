@@ -47,7 +47,7 @@ export default function SingleGame() {
             if (auth.currentUser?.uid === lobbyId) {
                 setShow(false);
             }
-            let obj: lobbyObj = {};
+            let obj: lobbyObj = { };
             db.doc(lobbyId).collection('Users').get().then((res) => {
                 const filtered = res.docs.filter(doc => doc.data().lobbyName);
                 obj.lobbyName = filtered[0].data().lobbyName;
@@ -92,15 +92,17 @@ export default function SingleGame() {
                 ?
                 <>
                     <div className='single-game-page-container'>
-                        <h1>{selectedGame.name}</h1>
-                        <h3>{selectedGame.genre}</h3>
+                        <h1>{selectedGame.name.toUpperCase()}</h1>
                         <img src={selectedGame.img} alt='cover' className='single-game-page-image' />
                     </div>
 
                     {
                         loading
                             ?
-                            <p>'loading'</p>
+                            <div className='loading-container'>
+                                <img src='https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif' alt='loader' />
+                                <h3>Loading Lobbies Please Wait</h3>
+                            </div>
                             :
                             <>
                                 {auth.currentUser?.uid !== undefined && show
@@ -109,9 +111,16 @@ export default function SingleGame() {
                                         <button onClick={() => { userContext?.dispatch({ type: 'SET_MODAL_OPEN' }); }}>Create Lobby</button>
                                     </div>
                                 }
-                                <div className='single-game-page-table-container'>
-                                    <LobbyTable lobbyList={lobbyList} />
-                                </div>
+                                {lobbyList.length
+                                    ?
+                                    <div className='single-game-page-table-container'>
+                                        <LobbyTable lobbyList={lobbyList} />
+                                    </div>
+                                    :
+                                    <div>
+                                        <h3>Be The First To Create A Lobby...</h3>
+                                    </div>
+                                }
 
                             </>
                     }
