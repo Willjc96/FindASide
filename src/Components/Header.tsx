@@ -4,7 +4,7 @@ import './app.scss';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
-import { Button } from 'semantic-ui-react';
+import { Button, Popup } from 'semantic-ui-react';
 import firebase from 'firebase';
 
 
@@ -34,39 +34,41 @@ export default function Header() {
             if (firebase.auth().currentUser) {
                 setLoading(true);
             }
-        }, 400);
+        }, 700);
     }, [loading]);
 
     return (
         <>
             <div className='header-container'>
-                <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
-                {loading || userContext?.state.logged
-                    ?
-                    <>
-                        {typeof firebase.auth().currentUser?.photoURL === 'string' ?
-                            <>
-                                <p>{firebase.auth().currentUser?.displayName}</p>
-                                <Link to='/myaccount'>
-
-                                    {<img src={firebase.auth().currentUser?.photoURL?.toString()} alt='avatar' />}
-                                </Link>
-                            </>
-                            : null
-                        }
-                        <Button onClick={handleLogOut}>Log Out</Button>
-                    </>
-                    :
-                    <div className='header-p-container'>
-                        <Link to='/login'>
-                            <p>Login</p>
-                        </Link>
-                        <p>|</p>
-                        <Link to='/signup'>
-                            <p>Signup</p>
-                        </Link>
-                    </div>
-                }
+                <div>
+                    <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
+                </div>
+                <div style={{ display: 'flex' }}>
+                    {loading || userContext?.state.logged
+                        ?
+                        <>
+                            {typeof firebase.auth().currentUser?.photoURL === 'string' ?
+                                <>
+                                    <Link to='/myaccount'>
+                                        <Popup content='Click to go to your account' trigger={<img src={firebase.auth().currentUser?.photoURL?.toString()} alt='avatar' />} />
+                                    </Link>
+                                </>
+                                : null
+                            }
+                            <Button style={{ height: '25%', alignSelf: 'center', margin: '0 50px 0 50px' }} onClick={handleLogOut}>LOG OUT</Button>
+                        </>
+                        :
+                        <div className='header-p-container'>
+                            <Link to='/login'>
+                                <p>Login</p>
+                            </Link>
+                            <p>|</p>
+                            <Link to='/signup'>
+                                <p>Signup</p>
+                            </Link>
+                        </div>
+                    }
+                </div>
             </div>
             <div className='header-strap'>
                 <p>Meet new friends</p>

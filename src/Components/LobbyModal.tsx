@@ -21,11 +21,12 @@ function LobbyModal() {
             if (dbUser.exists) {
                 console.log('Lobby Already Created');
             } else {
-                db.doc(user.id).set({});
-                await db.doc(user.id).collection('Users').doc(user.id).set({ username: user.name, gameId: user.game, userId: user.id, lobbyName: lobbyName, lobbyDescription: lobbyDescription, lobbyAvatar: auth.currentUser?.photoURL, lobbySize: lobbySize, lobbyDifficulty: lobbyDif });
+                db.doc(user.id).set({ });
+                await db.doc(user.id).collection('Users').doc(user.id).set({ username: user.name, gameId: user.game, userId: user.id, lobbyName: lobbyName, lobbyDescription: lobbyDescription, lobbyAvatar: auth.currentUser?.photoURL, lobbySize: lobbySize, lobbyDifficulty: lobbyDif })
                 userContext?.dispatch({
                     type: 'SET_MODAL_CLOSED'
                 });
+                await db.doc(user.id).collection('Chatroom')
             }
             setTimeout(() => {
                 window.location.reload()
@@ -40,6 +41,9 @@ function LobbyModal() {
         if (setStateFunction === setLobbySize) {
             if (Number(e.target.value) > 30) {
                 e.target.value = '30'
+            }
+            else if (Number(e.target.value) < 2) {
+                e.target.value = '2'
             }
         }
         setStateFunction(e.target.value);
@@ -79,8 +83,8 @@ function LobbyModal() {
                     <Input onChange={(e) => handleInputs(e, setLobbyDescription)} style={{ width: '100%' }} placeholder='Enter Lobby Description' />
                 </Modal.Description>
                 <Modal.Description>
-                    <p>Enter Lobby Size (max 30)</p>
-                    <Input type='number' min="0" max="30" onChange={(e) => handleInputs(e, setLobbySize)} style={{ width: '100%' }} placeholder='Enter Lobby Size' />
+                    <p>Enter Lobby Size (Min 2 - Max 30)</p>
+                    <Input type='number' min="2" max="30" onChange={(e) => handleInputs(e, setLobbySize)} style={{ width: '100%' }} placeholder='Enter Lobby Size' />
                 </Modal.Description>
                 <Modal.Description>
                     <p>Pick Your Skill Level</p>
