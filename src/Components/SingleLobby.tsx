@@ -30,6 +30,8 @@ interface User {
 interface DataObj {
     id: string;
     msg?: string;
+    createdAt?: string;
+    userId?: string;
 }
 
 export default function SingleLobby() {
@@ -61,9 +63,11 @@ export default function SingleLobby() {
     }, [getDatabaseInfo]);
 
     useEffect(() => {
-        if (auth.currentUser?.uid === undefined) {
-            setDisabled(true);
-        };
+        setTimeout(() => {
+            if (auth.currentUser?.uid === undefined) {
+                setDisabled(true);
+            };
+        }, 1000);
     }, []);
 
     useEffect(() => {
@@ -114,6 +118,8 @@ export default function SingleLobby() {
     };
 
     const deleteLobby = async () => {
+        deleteUsers();
+        deleteMessages();
         const collection = await firestore.collection(params.gameId).doc(params.lobbyId);
         await collection.delete();
         history.push(`/games/${params.gameId}`);
@@ -150,6 +156,28 @@ export default function SingleLobby() {
             await firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').doc((chats.length).toString()).set({ msg: chatMessage, createdAt: Date.now(), userId: auth.currentUser?.uid });
             setChatMessage('');
         }
+    };
+
+    const deleteMessages = async () => {
+        firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').get()
+            .then((querySnapshot) => {
+                const batch = firestore.batch();
+                querySnapshot.forEach((doc) => {
+                    batch.delete(doc.ref);
+                });
+                return batch.commit();
+            });
+    };
+
+    const deleteUsers = async () => {
+        firestore.collection(params.gameId).doc(params.lobbyId).collection('Users').get()
+            .then((querySnapshot) => {
+                const batch = firestore.batch();
+                querySnapshot.forEach((doc) => {
+                    batch.delete(doc.ref);
+                });
+                return batch.commit();
+            });
     };
 
     return (
@@ -190,6 +218,9 @@ export default function SingleLobby() {
             <div style={{ border: '1px solid black', paddingTop: '50px' }}>
                 <div style={{ border: '1px solid black', padding: '5%' }}>
                     {chats.map((chat, i) => {
+                        if (chat.userId === user.userId) {
+                            return <p key={i} style={{ color: 'red' }}>{chat.msg}</p>;
+                        }
                         return <p key={i}>{chat.msg}</p>;
                     })}
                 </div>
@@ -198,7 +229,7 @@ export default function SingleLobby() {
                         <Form.Field>
                             <input value={chatMessage} disabled={!disabled} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
                         </Form.Field>
-                        <Button>Send Message</Button>
+                        <Popup disabled={disabled} content='Please join lobby to chat' trigger={<Button>Send Message</Button>} />
                     </Form>
                 </div>
             </div>
