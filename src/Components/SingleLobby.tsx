@@ -32,6 +32,7 @@ interface DataObj {
     msg?: string;
     createdAt?: string;
     userId?: string;
+    username?: string;
 }
 
 export default function SingleLobby() {
@@ -153,7 +154,7 @@ export default function SingleLobby() {
 
     const addChat = async () => {
         if (chatMessage !== '') {
-            await firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').doc((chats.length).toString()).set({ msg: chatMessage, createdAt: Date.now(), userId: auth.currentUser?.uid });
+            await firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').doc((chats.length).toString()).set({ msg: chatMessage, createdAt: Date.now(), userId: auth.currentUser?.uid, username: user.username });
             setChatMessage('');
         }
     };
@@ -221,7 +222,7 @@ export default function SingleLobby() {
                         if (chat.userId === user.userId) {
                             return <p key={i} style={{ color: 'red' }}>{chat.msg}</p>;
                         }
-                        return <p key={i}>{chat.msg}</p>;
+                        return <p key={i}>{chat.username} - {chat.msg}</p>;
                     })}
                 </div>
                 <div style={{ margin: '1%' }}>
