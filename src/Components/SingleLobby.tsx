@@ -33,7 +33,8 @@ export default function SingleLobby() {
     const [disabled, setDisabled] = useState(false);
     const [full, setFull] = useState(false);
     const [host, setHost] = useState(false);
-    const [leaveOption, setLeaveOption] = useState(false)
+    const [leaveOption, setLeaveOption] = useState(false);
+    const [chats, setChats]= useState<string[]>([''])
     const history = useHistory();
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
 
@@ -125,8 +126,31 @@ export default function SingleLobby() {
         history.push(`/games/${params.gameId}`)
     }
 
+    useEffect(() => {
+        const getChats = async () => {
+            let chatsArray: string[] = [];
+            const dbChats = await firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').get();
+            dbChats.forEach((chat) => {
+                chatsArray.push(chat.data().msg)
+            })
+            if(chatsArray.length !== chats.length){
+                setChats(chatsArray)
+            }
+            console.log(chatsArray)
+            return chatsArray
+        }
+        getChats()
+    },[chats, params.gameId, params.lobbyId])
+
+    const addChat = async () => {
+        const msg = 'hello';
+        await firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').doc((chats.length).toString()).set({msg: 'hello'});
+        setChats([...chats, msg])
+    }
+
     return (
         <div>
+            <button onClick={addChat}>add chat</button>
             {usersArray
                 ?
                 <>
@@ -160,6 +184,11 @@ export default function SingleLobby() {
                 :
                 <p>loading</p>
             }
+            <div>
+                {chats.map((chat, i) => {
+                    return <p key={i}>{chat}</p>
+                })}
+            </div>
         </div>
     );
 }
