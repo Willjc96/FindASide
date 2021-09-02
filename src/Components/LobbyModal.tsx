@@ -23,7 +23,7 @@ function LobbyModal() {
             } else {
                 db.doc(user.id).set({ });
                 await db.doc(user.id).collection('Users').doc(user.id).set({ username: user.name, gameId: user.game, userId: user.id, lobbyName: lobbyName, lobbyDescription: lobbyDescription, lobbyAvatar: auth.currentUser?.photoURL, lobbySize: lobbySize, lobbyDifficulty: lobbyDif });
-                await db.doc(user.id).collection('Chats').doc('Default').set({msg: 'Say Hello To The Lobby, And Remember To Never Give Out Personal Details'});
+                await db.doc(user.id).collection('Chats').doc('Default').set({msg: 'Say Hello To The Lobby, And Remember To Never Give Out Personal Details', createdAt: Date.now()});
                 userContext?.dispatch({
                     type: 'SET_MODAL_CLOSED'
                 });

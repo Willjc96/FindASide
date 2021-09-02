@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { firestore, auth } from '../Config/firebase';
 import { useHistory } from 'react-router-dom';
-import { Popup, Icon } from 'semantic-ui-react'
+import { Popup, Icon, Form, Button } from 'semantic-ui-react'
 
 interface DocumentData {
     username?: string;
@@ -27,6 +27,11 @@ interface User {
     lobbyDifficulty?: string;
 }
 
+interface DataObj {
+    id: string;
+    msg?: string;
+}
+
 export default function SingleLobby() {
     const params: params = useParams();
     const [usersArray, setUsersArray] = useState<[] | DocumentData[]>([]);
@@ -34,8 +39,9 @@ export default function SingleLobby() {
     const [full, setFull] = useState(false);
     const [host, setHost] = useState(false);
     const [leaveOption, setLeaveOption] = useState(false);
-    const [chats, setChats]= useState<string[]>([''])
+    const [chats, setChats]= useState<DataObj[] | []>([])
     const history = useHistory();
+    const [chatMessage, setChatMessage] = useState('')
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
 
 
@@ -124,33 +130,30 @@ export default function SingleLobby() {
     const leaveLobby = async () => {
         await firestore.collection(params.gameId).doc(params.lobbyId).collection('Users').doc(auth.currentUser?.uid).delete();
         history.push(`/games/${params.gameId}`)
-    }
+    };
 
     useEffect(() => {
-        const getChats = async () => {
-            let chatsArray: string[] = [];
-            const dbChats = await firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').get();
-            dbChats.forEach((chat) => {
-                chatsArray.push(chat.data().msg)
+        if(firestore){
+            const unsubscribe = firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').orderBy('createdAt').onSnapshot(querySnapshot => {
+                const data = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }))
+                setChats(data);
             })
-            if(chatsArray.length !== chats.length){
-                setChats(chatsArray)
-            }
-            console.log(chatsArray)
-            return chatsArray
+            return unsubscribe;
         }
-        getChats()
-    },[chats, params.gameId, params.lobbyId])
+    },[params.lobbyId, params.gameId])
 
     const addChat = async () => {
-        const msg = 'hello';
-        await firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').doc((chats.length).toString()).set({msg: 'hello'});
-        setChats([...chats, msg])
+        if(chatMessage !== ''){
+          await firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').doc((chats.length).toString()).set({msg: chatMessage, createdAt: Date.now(), userId: auth.currentUser?.uid});
+            setChatMessage('');  
+        }
     }
 
     return (
         <div>
-            <button onClick={addChat}>add chat</button>
             {usersArray
                 ?
                 <>
@@ -184,10 +187,21 @@ export default function SingleLobby() {
                 :
                 <p>loading</p>
             }
-            <div>
-                {chats.map((chat, i) => {
-                    return <p key={i}>{chat}</p>
+            <div style={{border: '1px solid black', paddingTop: '50px'}}>
+                <div style={{border: '1px solid black', padding: '5%'}}>
+                    {chats.map((chat, i) => {
+                    return <p key={i}>{chat.msg}</p>
                 })}
+                </div>
+                <div style={{margin: '1%'}}>
+                    <Form onSubmit={addChat}> 
+                        <Form.Field>
+                            <input value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
+                        </Form.Field>
+                        <Button>Send Message</Button>
+                    </Form>
+                </div>
+                
             </div>
         </div>
     );
