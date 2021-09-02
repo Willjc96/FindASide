@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router';
 import { firestore, auth } from '../Config/firebase';
 import { useHistory } from 'react-router-dom';
@@ -47,6 +47,7 @@ export default function SingleLobby() {
     const [chatMessage, setChatMessage] = useState('');
     const [lobbySize, setLobbySize] = useState('');
     const [currentUsers, setCurrentUsers] = useState('');
+    const messagesEndRef = useRef<HTMLHeadingElement>(null);
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
 
 
@@ -185,6 +186,12 @@ export default function SingleLobby() {
             });
     };
 
+      useEffect(() => {
+        if (null !== messagesEndRef.current){
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        } 
+      }, [chats])
+
     return (
         <div>
             {usersArray
@@ -228,7 +235,7 @@ export default function SingleLobby() {
                                 return <p key={i} style={{ color: 'red', textAlign: 'right' }}>{chat.msg}</p>;
                             }
                             return (
-                                <div style={{ display: 'flex' }} key={i}>
+                                <div style={{ display: 'flex', paddingTop: '20px' }} key={i}>
                                     <p style={{ fontWeight: 'bolder', paddingRight: '5px' }}>
                                         {chat.username}:
                                     </p>
@@ -238,6 +245,7 @@ export default function SingleLobby() {
                                 </div>
                             );
                         })}
+                        <div ref={messagesEndRef}></div>
                     </div>
                     <div style={{ margin: '1%' }}>
                         <Form onSubmit={addChat}>
