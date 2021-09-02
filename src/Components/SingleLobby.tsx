@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { firestore, auth } from '../Config/firebase';
 import { useHistory } from 'react-router-dom';
-import { Popup, Icon, Form, Button } from 'semantic-ui-react'
+import { Popup, Icon, Form, Button } from 'semantic-ui-react';
 
 interface DocumentData {
     username?: string;
@@ -39,9 +39,9 @@ export default function SingleLobby() {
     const [full, setFull] = useState(false);
     const [host, setHost] = useState(false);
     const [leaveOption, setLeaveOption] = useState(false);
-    const [chats, setChats]= useState<DataObj[] | []>([])
+    const [chats, setChats] = useState<DataObj[] | []>([]);
     const history = useHistory();
-    const [chatMessage, setChatMessage] = useState('')
+    const [chatMessage, setChatMessage] = useState('');
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
 
 
@@ -49,22 +49,22 @@ export default function SingleLobby() {
         const firstCollection = await firestore.collection(params.gameId);
         firstCollection.doc(params.lobbyId).collection('Users').get().then((res) => {
             const people = res.docs.map((doc) => {
-                return doc.data()
-            })
-            setUsersArray(people)
-        })
+                return doc.data();
+            });
+            setUsersArray(people);
+        });
 
-    }, [params.gameId, params.lobbyId])
+    }, [params.gameId, params.lobbyId]);
 
     useEffect(() => {
-        getDatabaseInfo()
+        getDatabaseInfo();
     }, [getDatabaseInfo]);
 
     useEffect(() => {
         if (auth.currentUser?.uid === undefined) {
-            setDisabled(true)
+            setDisabled(true);
         };
-    }, [])
+    }, []);
 
     useEffect(() => {
         const check = async () => {
@@ -72,52 +72,52 @@ export default function SingleLobby() {
             let totalUsers = 0;
             let maxUsers = 0;
             const firstCollection = await firestore.collection(params.gameId);
-            const arr = await firstCollection.doc(params.lobbyId).collection('Users').get()
+            const arr = await firstCollection.doc(params.lobbyId).collection('Users').get();
             await arr.forEach((item) => {
-                users.push(item.data())
-            })
+                users.push(item.data());
+            });
             if (users.length) {
-                totalUsers = users.length
+                totalUsers = users.length;
             }
             await users.forEach((item) => {
                 if (item.lobbySize) {
-                    maxUsers = Number(item.lobbySize)
+                    maxUsers = Number(item.lobbySize);
                 }
-            })
+            });
             if ((totalUsers !== 0 && totalUsers === maxUsers) || (maxUsers !== 0 && maxUsers === totalUsers)) {
                 setDisabled(true);
                 setFull(true);
             }
             const check = await (await firstCollection.doc(params.lobbyId).collection('Users').doc(user.userId).get()).data();
             if (check !== undefined) {
-                setDisabled(true)
-                setLeaveOption(true)
+                setDisabled(true);
+                setLeaveOption(true);
                 if (check.lobbySize) {
-                    setHost(true)
+                    setHost(true);
                 }
             }
-        }
-        check()
-    }, [params.gameId, params.lobbyId, user.userId])
+        };
+        check();
+    }, [params.gameId, params.lobbyId, user.userId]);
 
 
     const joinLobby = async () => {
         const firstCollection = await firestore.collection(params.gameId);
         const check = await (await firstCollection.doc(params.lobbyId).collection('Users').doc(user.userId).get()).data();
         if (check === undefined) {
-            await firstCollection.doc(params.lobbyId).collection('Users').doc(user.userId).set(user)
-            setDisabled(true)
+            await firstCollection.doc(params.lobbyId).collection('Users').doc(user.userId).set(user);
+            setDisabled(true);
         } else {
-            console.log('already joined')
+            console.log('already joined');
         }
-        window.location.reload()
-    }
+        window.location.reload();
+    };
 
     const deleteLobby = async () => {
         const collection = await firestore.collection(params.gameId).doc(params.lobbyId);
         await collection.delete();
         history.push(`/games/${params.gameId}`);
-    }
+    };
 
     const removeUser = async (username: string | undefined) => {
         if (typeof username === 'string') {
@@ -125,32 +125,32 @@ export default function SingleLobby() {
             await firestore.collection(params.gameId).doc(params.lobbyId).collection('Users').doc(filter[0].userId).delete();
             window.location.reload();
         }
-    }
+    };
 
     const leaveLobby = async () => {
         await firestore.collection(params.gameId).doc(params.lobbyId).collection('Users').doc(auth.currentUser?.uid).delete();
-        history.push(`/games/${params.gameId}`)
+        history.push(`/games/${params.gameId}`);
     };
 
     useEffect(() => {
-        if(firestore){
+        if (firestore) {
             const unsubscribe = firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').orderBy('createdAt').onSnapshot(querySnapshot => {
                 const data = querySnapshot.docs.map(doc => ({
                     ...doc.data(),
                     id: doc.id,
-                }))
+                }));
                 setChats(data);
-            })
+            });
             return unsubscribe;
         }
-    },[params.lobbyId, params.gameId])
+    }, [params.lobbyId, params.gameId]);
 
     const addChat = async () => {
-        if(chatMessage !== ''){
-          await firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').doc((chats.length).toString()).set({msg: chatMessage, createdAt: Date.now(), userId: auth.currentUser?.uid});
-            setChatMessage('');  
+        if (chatMessage !== '') {
+            await firestore.collection(params.gameId).doc(params.lobbyId).collection('Chats').doc((chats.length).toString()).set({ msg: chatMessage, createdAt: Date.now(), userId: auth.currentUser?.uid });
+            setChatMessage('');
         }
-    }
+    };
 
     return (
         <div>
@@ -170,16 +170,16 @@ export default function SingleLobby() {
                                     <p>HOST</p>
                                 </div>
 
-                            )
+                            );
                         } else if (host) {
                             return (
                                 <div key={user.userId} style={{ display: 'flex' }}>
                                     <p>{user.username}</p>
                                     <Popup content='CLICK TO REMOVE USER' trigger={<Icon name='trash alternate outline' onClick={() => removeUser(user.username)} />} />
                                 </div>
-                            )
+                            );
                         } else {
-                            return <p key={user.userId}>{user.username}</p>
+                            return <p key={user.userId}>{user.username}</p>;
                         }
 
                     })}
@@ -187,22 +187,20 @@ export default function SingleLobby() {
                 :
                 <p>loading</p>
             }
-            <div style={{border: '1px solid black', paddingTop: '50px'}}>
-                <div style={{border: '1px solid black', padding: '5%'}}>
+            <div style={{ border: '1px solid black', paddingTop: '50px' }}>
+                <div style={{ border: '1px solid black', padding: '5%' }}>
                     {chats.map((chat, i) => {
-                    return <p key={i}>{chat.msg}</p>
-                })}
+                        return <p key={i}>{chat.msg}</p>;
+                    })}
                 </div>
-                {!disabled && 
-                    <div style={{margin: '1%'}}>
-                        <Form onSubmit={addChat}> 
-                            <Form.Field>
-                                <input value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
-                            </Form.Field>
-                            <Button>Send Message</Button>
-                        </Form>
-                    </div>
-                }   
+                <div style={{ margin: '1%' }}>
+                    <Form onSubmit={addChat}>
+                        <Form.Field>
+                            <input value={chatMessage} disabled={!disabled} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
+                        </Form.Field>
+                        <Button>Send Message</Button>
+                    </Form>
+                </div>
             </div>
         </div>
     );
