@@ -221,17 +221,14 @@ export default function SingleLobby() {
                         })}
                         <div ref={messagesEndRef}></div>
                     </div>
-                    {!full && 
-                        <div style={{ margin: '1%' }}>
-                            <Form onSubmit={addChat}>
-                                <Form.Field>
-                                    <input value={chatMessage} disabled={!disabled} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
-                                </Form.Field>
+                    <div style={{ margin: '1%' }}>
+                        <Form onSubmit={addChat}>
+                            <Form.Field>
+                                <input value={chatMessage} disabled={!disabled} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
+                            </Form.Field>
                             <Popup disabled={disabled} content='Please join lobby to chat' trigger={<Button>Send Message</Button>} />
-                            </Form>
-                        </div>
-                    }
-                    
+                        </Form>
+                    </div>
                 </div>
                 <div style={{ width: '40%', border: '1px solid black', minHeight: '300px', maxHeight: '300px', textAlign: 'center', overflowY: 'scroll' }}>
                     <div>
