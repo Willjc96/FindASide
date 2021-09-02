@@ -197,32 +197,6 @@ export default function SingleLobby() {
             {usersArray
                 ?
                 <>
-                    <button disabled={disabled} onClick={joinLobby}>Join Lobby</button>
-                    {host && <Popup content='CLICK TO DELETE LOBBY' trigger={<button onClick={deleteLobby}>Delete Lobby</button>} />}
-                    {!host && leaveOption && <Popup content='CLICK TO LEAVE LOBBY' trigger={<button onClick={leaveLobby}>Leave Lobby</button>} />}
-                    {full && <p>Lobby is full</p>}
-                    {usersArray.map((user) => {
-                        if (user.lobbyName) {
-                            return (
-                                <div key={user.userId} style={{ display: 'flex' }}>
-                                    <p>{user.username}</p>
-                                    <Icon name='star' />
-                                    <p>HOST</p>
-                                </div>
-
-                            );
-                        } else if (host) {
-                            return (
-                                <div key={user.userId} style={{ display: 'flex' }}>
-                                    <p>{user.username}</p>
-                                    <Popup content='CLICK TO REMOVE USER' trigger={<Icon name='trash alternate outline' onClick={() => removeUser(user.username)} />} />
-                                </div>
-                            );
-                        } else {
-                            return <p key={user.userId}>{user.username}</p>;
-                        }
-
-                    })}
                 </>
                 :
                 <p>loading</p>
@@ -256,33 +230,59 @@ export default function SingleLobby() {
                         </Form>
                     </div>
                 </div>
-                <div style={{ width: '40%', border: '1px solid black', minHeight: '300px', maxHeight: '300px' }}>
+                <div style={{ width: '40%', border: '1px solid black', minHeight: '300px', maxHeight: '300px', textAlign: 'center', overflowY: 'scroll' }}>
                     <div>
-                        <p>Lobby Size {currentUsers}/{lobbySize}</p>
+                        <h3>Lobby Size {currentUsers}/{lobbySize}</h3>
+                        {full && <p>Lobby is full</p>}
                     </div>
-                    <div>
-                        <p>
-                            {usersArray.map((user) => {
-                                if (user.lobbyName) {
+                    <div style={{paddingTop: '10px'}}>
+                        <h3 style={{textDecoration: 'underline'}}>Members</h3>
+                            {usersArray.map((userObj) => {
+                                if (host) {
                                     return (
-                                        <div key={user.userId} style={{ display: 'flex' }}>
-                                            <p>{user.username}</p>
-                                            <Icon name='star' />
-                                            <p>HOST</p>
+                                        <div key={userObj.userId} style={{ display: 'flex', justifyContent: 'center'}}>
+                                            {user.username !== userObj.username ?
+                                            <>
+                                                <p>{userObj.username}</p>
+                                                <Popup content='CLICK TO REMOVE USER' trigger={<Icon name='trash alternate outline' onClick={() => removeUser(userObj.username)} />} />
+                                            </>
+                                            :
+                                            <>
+                                                <p>{userObj.username}</p>
+                                                <Icon name='star' />
+                                                <p>HOST</p>
+                                            </> 
+                                            }
                                         </div>
-
                                     );
-                                } else if (host) {
-                                    return (
-                                        <div key={user.userId} style={{ display: 'flex' }}>
-                                            <p>{user.username}</p>
-                                            <Popup content='CLICK TO REMOVE USER' trigger={<Icon name='trash alternate outline' onClick={() => removeUser(user.username)} />} />
-                                        </div>
-                                    );
-                                } else {
-                                    return <p key={user.userId}>{user.username}</p>;
                                 }
-                            })}</p>
+                                else {
+                                    return (
+                                        <div key={userObj.userId} style={{ display: 'flex', justifyContent: 'center'}}>
+                                            {userObj.lobbyName ?
+                                            <>
+                                                <p>{userObj.username}</p>
+                                                <Icon name='star' />
+                                                <p>HOST</p>
+                                            </>
+                                            :
+                                            <>
+                                                <p>{userObj.username}</p>
+                                            </>
+                                            }
+                                        </div>
+                                    )
+                                }
+                            })}
+                            <div style={{paddingTop: '10px'}}>
+                                {host && <Popup content='CLICK TO DELETE LOBBY' trigger={<button onClick={deleteLobby}>Delete Lobby</button>} />}
+                            </div>
+                            <div style={{paddingTop: '10px'}} >
+                                <button disabled={disabled} onClick={joinLobby}>Join Lobby</button>
+                            </div>
+                            <div style={{paddingTop: '10px'}}>
+                                {!host && leaveOption && <Popup content='CLICK TO LEAVE LOBBY' trigger={<button onClick={leaveLobby}>Leave Lobby</button>} />}
+                            </div>
                     </div>
                 </div>
             </div>
