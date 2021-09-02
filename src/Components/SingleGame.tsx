@@ -25,6 +25,7 @@ interface lobbyObj {
     lobbyAvatar?: string;
     lobbySize?: string;
     lobbyDifficulty?: string;
+    lobbyConsole?: string;
 }
 
 
@@ -47,7 +48,7 @@ export default function SingleGame() {
             if (auth.currentUser?.uid === lobbyId) {
                 setShow(false);
             }
-            let obj: lobbyObj = { };
+            let obj: lobbyObj = {};
             db.doc(lobbyId).collection('Users').get().then((res) => {
                 const filtered = res.docs.filter(doc => doc.data().lobbyName);
                 obj.lobbyName = filtered[0].data().lobbyName;
@@ -59,6 +60,7 @@ export default function SingleGame() {
                 obj.lobbyCount = res.docs.length.toString();
                 obj.lobbySize = filtered[0].data().lobbySize;
                 obj.lobbyDifficulty = filtered[0].data().lobbyDifficulty;
+                obj.lobbyConsole = filtered[0].data().lobbyConsole;
             });
             return obj;
         });

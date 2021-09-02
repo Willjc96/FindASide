@@ -11,6 +11,7 @@ function LobbyModal() {
     const [lobbyDescription, setLobbyDescription] = useState('');
     const [lobbySize, setLobbySize] = useState('');
     const [lobbyDif, setDifficulty] = useState('');
+    const [lobbyConsole, setConsole] = useState('');
     const user = { name: auth.currentUser?.displayName, game: id[0], id: auth.currentUser?.uid };
 
 
@@ -21,17 +22,17 @@ function LobbyModal() {
             if (dbUser.exists) {
                 console.log('Lobby Already Created');
             } else {
-                db.doc(user.id).set({ });
-                await db.doc(user.id).collection('Users').doc(user.id).set({ username: user.name, gameId: user.game, userId: user.id, lobbyName: lobbyName, lobbyDescription: lobbyDescription, lobbyAvatar: auth.currentUser?.photoURL, lobbySize: lobbySize, lobbyDifficulty: lobbyDif });
-                await db.doc(user.id).collection('Chats').doc('Default').set({msg: 'Say Hello To The Lobby, And Remember To Never Give Out Personal Details', createdAt: Date.now()});
+                db.doc(user.id).set({});
+                await db.doc(user.id).collection('Users').doc(user.id).set({ username: user.name, gameId: user.game, userId: user.id, lobbyName: lobbyName, lobbyDescription: lobbyDescription, lobbyAvatar: auth.currentUser?.photoURL, lobbySize: lobbySize, lobbyDifficulty: lobbyDif, lobbyConsole: lobbyConsole });
+                await db.doc(user.id).collection('Chats').doc('Default').set({ msg: 'Say Hello To The Lobby, And Remember To Never Give Out Personal Details', createdAt: Date.now(), username: 'HelpBot' });
                 userContext?.dispatch({
                     type: 'SET_MODAL_CLOSED'
                 });
-                await db.doc(user.id).collection('Chatroom')
+                await db.doc(user.id).collection('Chatroom');
             }
             setTimeout(() => {
-                window.location.reload()
-            }, 10)
+                window.location.reload();
+            }, 10);
         } else {
             console.log('enter lobby name, description and size');
         }
@@ -41,27 +42,33 @@ function LobbyModal() {
     const handleInputs = (e: React.ChangeEvent<HTMLInputElement>, setStateFunction: React.Dispatch<React.SetStateAction<string>>) => {
         if (setStateFunction === setLobbySize) {
             if (Number(e.target.value) > 30) {
-                e.target.value = '30'
+                e.target.value = '30';
             }
             else if (Number(e.target.value) < 2) {
-                e.target.value = '2'
+                e.target.value = '2';
             }
         }
         setStateFunction(e.target.value);
     };
 
-    const countryOptions = [
+    const difficultyOptions = [
         { key: "Noob", value: "Noob", text: "Noob" },
         { key: "Beginner", value: "Beginner", text: "Beginner" },
         { key: "Decent", value: "Decent", text: "Decent" },
         { key: "Advanced", value: "Advanced", text: "Advanced" },
         { key: "LiveOnTheGame", value: "Live On The Game", text: "Live On The Game" }
     ];
+    const consoleOptions = [
+        { key: "Xbox", value: "Xbox", text: "Xbox" },
+        { key: "Playstation", value: "Playstation", text: "Playstation" },
+        { key: "PC", value: "PC", text: "PC" },
+
+    ];
 
     const handleMultiInputs = (event: React.SyntheticEvent, setStateFunction: React.Dispatch<React.SetStateAction<string>>) => {
         let target = event.target as HTMLInputElement;
         setStateFunction(target.innerText);
-    }
+    };
 
     return (
         <Modal
@@ -89,7 +96,11 @@ function LobbyModal() {
                 </Modal.Description>
                 <Modal.Description>
                     <p>Pick Your Skill Level</p>
-                    <Select placeholder="Select your country" options={countryOptions} name='countries' onChange={(e) => handleMultiInputs(e, setDifficulty)} />
+                    <Select placeholder="Select your difficulty" options={difficultyOptions} name='difficulties' onChange={(e) => handleMultiInputs(e, setDifficulty)} />
+                </Modal.Description>
+                <Modal.Description>
+                    <p>Pick Your Console</p>
+                    <Select placeholder="Select your console" options={consoleOptions} name='consoles' onChange={(e) => handleMultiInputs(e, setConsole)} />
                 </Modal.Description>
             </Modal.Content>
             <Modal.Actions>

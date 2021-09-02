@@ -45,6 +45,8 @@ export default function SingleLobby() {
     const [chats, setChats] = useState<DataObj[] | []>([]);
     const history = useHistory();
     const [chatMessage, setChatMessage] = useState('');
+    const [lobbySize, setLobbySize] = useState('');
+    const [currentUsers, setCurrentUsers] = useState('');
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
 
 
@@ -83,10 +85,12 @@ export default function SingleLobby() {
             });
             if (users.length) {
                 totalUsers = users.length;
+                setCurrentUsers(users.length.toString());
             }
             await users.forEach((item) => {
                 if (item.lobbySize) {
                     maxUsers = Number(item.lobbySize);
+                    setLobbySize(item.lobbySize);
                 }
             });
             if ((totalUsers !== 0 && totalUsers === maxUsers) || (maxUsers !== 0 && maxUsers === totalUsers)) {
@@ -216,22 +220,62 @@ export default function SingleLobby() {
                 :
                 <p>loading</p>
             }
-            <div style={{ border: '1px solid black', paddingTop: '50px' }}>
-                <div style={{ border: '1px solid black', padding: '5%' }}>
-                    {chats.map((chat, i) => {
-                        if (chat.userId === user.userId) {
-                            return <p key={i} style={{ color: 'red' }}>{chat.msg}</p>;
-                        }
-                        return <p key={i}>{chat.username} - {chat.msg}</p>;
-                    })}
+            <div style={{ display: 'flex', width: '100%', justifyContent: 'space-evenly', paddingTop: '50px' }}>
+                <div style={{ width: '40%' }}>
+                    <div style={{ border: '1px solid black', padding: '5%', minHeight: '300px', maxHeight: '300px', overflowY: 'scroll' }}>
+                        {chats.map((chat, i) => {
+                            if (chat.userId === user.userId) {
+                                return <p key={i} style={{ color: 'red', textAlign: 'right' }}>{chat.msg}</p>;
+                            }
+                            return (
+                                <div style={{ display: 'flex' }} key={i}>
+                                    <p style={{ fontWeight: 'bolder', paddingRight: '5px' }}>
+                                        {chat.username}:
+                                    </p>
+                                    <p>
+                                        {chat.msg}
+                                    </p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div style={{ margin: '1%' }}>
+                        <Form onSubmit={addChat}>
+                            <Form.Field>
+                                <input value={chatMessage} disabled={!disabled} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
+                            </Form.Field>
+                            <Popup disabled={disabled} content='Please join lobby to chat' trigger={<Button>Send Message</Button>} />
+                        </Form>
+                    </div>
                 </div>
-                <div style={{ margin: '1%' }}>
-                    <Form onSubmit={addChat}>
-                        <Form.Field>
-                            <input value={chatMessage} disabled={!disabled} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
-                        </Form.Field>
-                        <Popup disabled={disabled} content='Please join lobby to chat' trigger={<Button>Send Message</Button>} />
-                    </Form>
+                <div style={{ width: '40%', border: '1px solid black', minHeight: '300px', maxHeight: '300px' }}>
+                    <div>
+                        <p>Lobby Size {currentUsers}/{lobbySize}</p>
+                    </div>
+                    <div>
+                        <p>
+                            {usersArray.map((user) => {
+                                if (user.lobbyName) {
+                                    return (
+                                        <div key={user.userId} style={{ display: 'flex' }}>
+                                            <p>{user.username}</p>
+                                            <Icon name='star' />
+                                            <p>HOST</p>
+                                        </div>
+
+                                    );
+                                } else if (host) {
+                                    return (
+                                        <div key={user.userId} style={{ display: 'flex' }}>
+                                            <p>{user.username}</p>
+                                            <Popup content='CLICK TO REMOVE USER' trigger={<Icon name='trash alternate outline' onClick={() => removeUser(user.username)} />} />
+                                        </div>
+                                    );
+                                } else {
+                                    return <p key={user.userId}>{user.username}</p>;
+                                }
+                            })}</p>
+                    </div>
                 </div>
             </div>
         </div>

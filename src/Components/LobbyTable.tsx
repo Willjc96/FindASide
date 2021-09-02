@@ -11,6 +11,7 @@ interface LobbyObject {
   lobbyAvatar?: string;
   lobbySize?: string;
   lobbyDifficulty?: string;
+  lobbyConsole?: string;
 }
 interface IProps {
   lobbyList: LobbyObject[];
@@ -26,6 +27,7 @@ function TableExampleCollapsing(props: IProps) {
           <Table.HeaderCell>Hosts Name</Table.HeaderCell>
           <Table.HeaderCell>Lobby Name</Table.HeaderCell>
           <Table.HeaderCell>Lobby Description</Table.HeaderCell>
+          <Table.HeaderCell>Lobby Console</Table.HeaderCell>
           <Table.HeaderCell>Lobby Skill Rating</Table.HeaderCell>
           <Table.HeaderCell>Lobby Size</Table.HeaderCell>
           <Table.HeaderCell>View</Table.HeaderCell>
@@ -44,6 +46,7 @@ function TableExampleCollapsing(props: IProps) {
             </Table.Cell>
             <Table.Cell>{lobby.lobbyName}</Table.Cell>
             <Table.Cell>{lobby.lobbyDescription}</Table.Cell>
+            <Table.Cell>{lobby.lobbyConsole}</Table.Cell>
             <Table.Cell>{lobby.lobbyDifficulty}</Table.Cell>
             <Table.Cell>{`${lobby.lobbyCount}/${lobby.lobbySize}`}</Table.Cell>
             <Table.Cell>
