@@ -193,15 +193,16 @@ export default function SingleLobby() {
                     return <p key={i}>{chat.msg}</p>
                 })}
                 </div>
-                <div style={{margin: '1%'}}>
-                    <Form onSubmit={addChat}> 
-                        <Form.Field>
-                            <input value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
-                        </Form.Field>
-                        <Button>Send Message</Button>
-                    </Form>
-                </div>
-                
+                {!disabled && 
+                    <div style={{margin: '1%'}}>
+                        <Form onSubmit={addChat}> 
+                            <Form.Field>
+                                <input value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
+                            </Form.Field>
+                            <Button>Send Message</Button>
+                        </Form>
+                    </div>
+                }   
             </div>
         </div>
     );
