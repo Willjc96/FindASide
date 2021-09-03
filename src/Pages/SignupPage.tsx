@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import { useState } from 'react';
 import { auth } from '../Config/firebase';
 import firebase from 'firebase';
+import { images } from '../AvatarList';
 
 export default function LoginPage() {
 
@@ -52,47 +53,54 @@ export default function LoginPage() {
     };
 
     return (
-        <div>
-            <Form onSubmit={signUpWithEmailAndPassword}>
-                <Form.Field>
-                    <label>
-                        Username
-                    </label>
-                    <input placeholder='Enter Username' onChange={(e) => updateFields(e, setUsername)} />
-                </Form.Field>
-                <Form.Field>
-                    <label>
-                        Email Address
-                    </label>
-                    <input placeholder='Enter Email Address' onChange={(e) => updateFields(e, setEmail)} />
-                </Form.Field>
-                <Form.Field>
-                    <label>
-                        Password
-                    </label>
-                    <input placeholder='Enter Password' onChange={(e) => updateFields(e, setPassword)} />
-                </Form.Field>
-                <Form.Field>
-                    <label>
-                        Confirm Password
-                    </label>
-                    <input placeholder='Enter Password' onChange={(e) => updateFields(e, setConfirmPassword)} />
-                </Form.Field>
-                <Form.Field>
-                    <label>
-                        Select Avatar
-                    </label>
-                    <div className='single-avatar-container'>
-                        <img src='https://react.semantic-ui.com/images/avatar/small/lena.png' alt='avatar1' tabIndex={0} onClick={() => { setAvatar('https://react.semantic-ui.com/images/avatar/small/lena.png'); }} />
-                        <img src='https://react.semantic-ui.com/images/avatar/small/matthew.png' alt='avatar2' tabIndex={1} onClick={() => { setAvatar('https://react.semantic-ui.com/images/avatar/small/matthew.png'); }} />
-                        <img src='https://react.semantic-ui.com/images/avatar/small/lindsay.png' alt='avatar3' tabIndex={2} onClick={() => { setAvatar('https://react.semantic-ui.com/images/avatar/small/lindsay.png'); }} />
-                        <img src='https://react.semantic-ui.com/images/avatar/small/mark.png' alt='avatar4' tabIndex={3} onClick={() => { setAvatar('https://react.semantic-ui.com/images/avatar/small/mark.png'); }} />
+        <div className='full-page-container'>
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', textAlign: 'center', paddingTop: '50px' }}>
+                <Form onSubmit={signUpWithEmailAndPassword}>
+                    <Form.Field >
+                        <label style={{ textAlign: 'left' }}>
+                            USERNAME
+                        </label>
+                        <input placeholder='Enter Username' onChange={(e) => updateFields(e, setUsername)} />
+                    </Form.Field>
+                    <Form.Field >
+                        <label style={{ textAlign: 'left' }}>
+                            EMAIL ADDRESS
+                        </label>
+                        <input placeholder='Enter Email Address' onChange={(e) => updateFields(e, setEmail)} />
+                    </Form.Field>
+                    <Form.Field >
+                        <label style={{ textAlign: 'left' }}>
+                            PASSWORD
+                        </label>
+                        <input placeholder='Enter Password' onChange={(e) => updateFields(e, setPassword)} />
+                    </Form.Field>
+                    <Form.Field >
+                        <label style={{ textAlign: 'left' }}>
+                            CONFIRM PASSWORD
+                        </label>
+                        <input placeholder='Enter Password' onChange={(e) => updateFields(e, setConfirmPassword)} />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>
+                            Select Avatar
+                        </label>
+                        <div className='select-avatar-container'>
+                            {
+                                images.map((image, i) => {
+                                    return (
+                                        <img src={image.url.toString()} style={{ maxHeight: '160px' }} alt={`avatar${i}`} tabIndex={i} onClick={() => { setAvatar(image.url.toString()); }} />
+                                    );
+                                })
+                            }
+                        </div>
+                    </Form.Field>
+                    {err ? <p>{err}</p> : null}
+                    <Button type='submit'>Submit</Button>
+                    <div style={{ paddingTop: '10px' }}>
+                        <Button onClick={handleClick}>Login Page</Button>
                     </div>
-                </Form.Field>
-                {err ? <p>{err}</p> : null}
-                <Button type='submit'>Submit</Button>
-            </Form>
-            <p onClick={handleClick}>Login</p>
+                </Form>
+            </div>
         </div>
     );
 }

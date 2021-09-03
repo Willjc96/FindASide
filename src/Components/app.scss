@@ -8,6 +8,7 @@ $secondaryColor: #F0FFF2;
     
 }
 .header-container img {
+    max-height: '160px';
     &:hover{
       cursor: pointer;  
     }
@@ -66,7 +67,12 @@ $secondaryColor: #F0FFF2;
         cursor: pointer;
     }
 }
+.single-avatar-container {
+    max-height: '100px';
+    overflow-y: scroll;
+}
 .single-avatar-container img{
+    border: transparent 5px solid;
     &:hover{
         border: white 5px solid;
         cursor: pointer;
@@ -74,6 +80,23 @@ $secondaryColor: #F0FFF2;
     &:focus{
         border: red 5px solid;
     }
+    max-height: '100px';
+}
+.select-avatar-container {
+    max-height: 450px;
+    max-width: 50%;
+    overflow-y: scroll;
+}
+.select-avatar-container img{
+    border: transparent 5px solid;
+    &:hover{
+        border: white 5px solid;
+        cursor: pointer;
+    }
+    &:focus{
+        border: red 5px solid;
+    }
+    max-height: '100px';
 }
 .homepage-main-container h2{
     padding-left: 20px;

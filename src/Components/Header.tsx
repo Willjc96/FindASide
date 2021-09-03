@@ -50,7 +50,7 @@ export default function Header() {
                             {typeof firebase.auth().currentUser?.photoURL === 'string' ?
                                 <>
                                     <Link to='/myaccount'>
-                                        <Popup content='Click to go to your account' trigger={<img src={firebase.auth().currentUser?.photoURL?.toString()} alt='avatar' />} />
+                                        <Popup content='Click to go to your account' trigger={<img src={firebase.auth().currentUser?.photoURL?.toString()} style={{ maxHeight: '160px' }} alt='avatar' />} />
                                     </Link>
                                 </>
                                 : null

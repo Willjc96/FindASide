@@ -38,24 +38,28 @@ export default function LoginPage() {
     };
 
     return (
-        <div>
-            <Form onSubmit={signInWithEmailAndPassword}>
-                <Form.Field>
-                    <label>
-                        email
-                    </label>
-                    <input onChange={(e) => updateFields(e, setEmail)} placeholder='Enter Email' />
-                </Form.Field>
-                <Form.Field>
-                    <label>
-                        Password
-                    </label>
-                    <input onChange={(e) => updateFields(e, setPassword)} placeholder='Enter Password' type='password' />
-                </Form.Field>
-                {error ? <p>{error}</p> : null}
-                <Button type='submit'>Submit</Button>
-            </Form>
-            <p onClick={handleClick}>Signup</p>
+        <div className='full-page-container'>
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', textAlign: 'center', paddingTop: '50px' }}>
+                <Form onSubmit={signInWithEmailAndPassword}>
+                    <Form.Field >
+                        <label style={{ textAlign: 'left' }}>
+                            EMAIL
+                        </label>
+                        <input onChange={(e) => updateFields(e, setEmail)} placeholder='Enter Email' />
+                    </Form.Field>
+                    <Form.Field>
+                        <label style={{ textAlign: 'left' }}>
+                            PASSWORD
+                        </label>
+                        <input onChange={(e) => updateFields(e, setPassword)} placeholder='Enter Password' type='password' />
+                    </Form.Field>
+                    {error ? <p>{error}</p> : null}
+                    <Button type='submit'>Submit</Button>
+                    <div style={{ paddingTop: '10px' }}>
+                        <Button onClick={handleClick}>Signup</Button>
+                    </div>
+                </Form>
+            </div>
         </div>
     );
 }
