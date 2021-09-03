@@ -47,7 +47,7 @@ export default function SingleLobby() {
     const [chatMessage, setChatMessage] = useState('');
     const [lobbySize, setLobbySize] = useState('');
     const [currentUsers, setCurrentUsers] = useState('');
-    const [joined, setJoined] = useState(false)
+    const [joined, setJoined] = useState(false);
     const messagesEndRef = useRef<HTMLHeadingElement>(null);
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
 
@@ -187,19 +187,19 @@ export default function SingleLobby() {
             });
     };
 
-      useEffect(() => {
-        if (null !== messagesEndRef.current){
+    useEffect(() => {
+        if (null !== messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-        } 
-      }, [chats]);
+        }
+    }, [chats]);
 
-      useEffect(() => {
+    useEffect(() => {
         usersArray.forEach((item) => {
-            if(auth.currentUser?.uid === item.userId){
-                setJoined(true)
+            if (auth.currentUser?.uid === item.userId) {
+                setJoined(true);
             }
-        })
-      },[usersArray]);
+        });
+    }, [usersArray]);
 
     return (
         <div>
@@ -216,10 +216,10 @@ export default function SingleLobby() {
                         {chats.map((chat, i) => {
                             if (chat.userId === user.userId) {
                                 return (
-                                <div key={i} style={{color: 'red', textAlign: 'right' }}>
-                                    <p>{chat.msg}</p>
-                                </div>
-                                )
+                                    <div key={i} style={{ color: 'red', textAlign: 'right' }}>
+                                        <p>{chat.msg}</p>
+                                    </div>
+                                );
                             }
                             return (
                                 <div style={{ display: 'flex', paddingTop: '20px' }} key={i}>
@@ -247,19 +247,19 @@ export default function SingleLobby() {
                         null
                     }
                 </div>
-                <div style={{width: '40%'}}>
+                <div style={{ width: '40%' }}>
                     <div className='lobby-content-box-right'>
                         <div>
                             <h3>Lobby Size {currentUsers}/{lobbySize}</h3>
                             {full && <p>Lobby is full</p>}
                         </div>
-                        <div style={{paddingTop: '10px'}}>
-                            <h3 style={{textDecoration: 'underline'}}>Members</h3>
-                                {usersArray.map((userObj) => {
-                                    if (host) {
-                                        return (
-                                            <div key={userObj.userId} style={{ display: 'flex', justifyContent: 'center'}}>
-                                                {user.username !== userObj.username ?
+                        <div style={{ paddingTop: '10px' }}>
+                            <h3 style={{ textDecoration: 'underline' }}>Members</h3>
+                            {usersArray.map((userObj) => {
+                                if (host) {
+                                    return (
+                                        <div key={userObj.userId} style={{ display: 'flex', justifyContent: 'center' }}>
+                                            {user.username !== userObj.username ?
                                                 <>
                                                     <p>{userObj.username}</p>
                                                     <Popup content='CLICK TO REMOVE USER' trigger={<Icon name='trash alternate outline' onClick={() => removeUser(userObj.username)} />} />
@@ -269,15 +269,15 @@ export default function SingleLobby() {
                                                     <p>{userObj.username}</p>
                                                     <Icon name='star' />
                                                     <p>HOST</p>
-                                                </> 
-                                                }
-                                            </div>
-                                        );
-                                    }
-                                    else {
-                                        return (
-                                            <div key={userObj.userId} style={{ display: 'flex', justifyContent: 'center'}}>
-                                                {userObj.lobbyName ?
+                                                </>
+                                            }
+                                        </div>
+                                    );
+                                }
+                                else {
+                                    return (
+                                        <div key={userObj.userId} style={{ display: 'flex', justifyContent: 'center' }}>
+                                            {userObj.lobbyName ?
                                                 <>
                                                     <p>{userObj.username}</p>
                                                     <Icon name='star' />
@@ -287,20 +287,20 @@ export default function SingleLobby() {
                                                 <>
                                                     <p>{userObj.username}</p>
                                                 </>
-                                                }
-                                            </div>
-                                        )
-                                    }
-                                })}
-                                <div style={{paddingTop: '10px'}}>
-                                    {host && <Popup content='CLICK TO DELETE LOBBY' trigger={<button onClick={deleteLobby}>Delete Lobby</button>} />}
-                                </div>
-                                <div style={{paddingTop: '10px'}} >
-                                    <button disabled={disabled} onClick={joinLobby}>Join Lobby</button>
-                                </div>
-                                <div style={{paddingTop: '10px'}}>
-                                    {!host && leaveOption && <Popup content='CLICK TO LEAVE LOBBY' trigger={<button onClick={leaveLobby}>Leave Lobby</button>} />}
-                                </div>
+                                            }
+                                        </div>
+                                    );
+                                }
+                            })}
+                            <div style={{ paddingTop: '10px' }}>
+                                {host && <Popup content='CLICK TO DELETE LOBBY' trigger={<Button onClick={deleteLobby}>Delete Lobby</Button>} />}
+                            </div>
+                            <div style={{ paddingTop: '10px' }} >
+                                <Button disabled={disabled} onClick={joinLobby}>Join Lobby</Button>
+                            </div>
+                            <div style={{ paddingTop: '10px' }}>
+                                {!host && leaveOption && <Popup content='CLICK TO LEAVE LOBBY' trigger={<Button onClick={leaveLobby}>Leave Lobby</Button>} />}
+                            </div>
                         </div>
                     </div>
                 </div>

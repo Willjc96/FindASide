@@ -5,6 +5,7 @@ import LobbyTable from './LobbyTable';
 import { firestore, auth } from '../Config/firebase';
 import { UserContext } from '../Context/UserContext';
 import LobbyModal from './LobbyModal';
+import { Button } from 'semantic-ui-react';
 
 interface game {
     name: string;
@@ -106,11 +107,11 @@ export default function SingleGame() {
                                 <h3>Loading Lobbies Please Wait</h3>
                             </div>
                             :
-                            <>
+                            <div className='lobby-table-container'>
                                 {auth.currentUser?.uid !== undefined && show
                                     &&
                                     <div>
-                                        <button onClick={() => { userContext?.dispatch({ type: 'SET_MODAL_OPEN' }); }}>Create Lobby</button>
+                                        <Button onClick={() => { userContext?.dispatch({ type: 'SET_MODAL_OPEN' }); }}>Create Lobby</Button>
                                     </div>
                                 }
                                 {lobbyList.length
@@ -124,7 +125,7 @@ export default function SingleGame() {
                                     </div>
                                 }
 
-                            </>
+                            </div>
                     }
                 </>
                 :
