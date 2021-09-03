@@ -201,9 +201,9 @@ export default function SingleLobby() {
                 :
                 <p>loading</p>
             }
-            <div style={{ display: 'flex', width: '100%', justifyContent: 'space-evenly', paddingTop: '50px' }}>
+            <div style={{ display: 'flex', width: '100%', justifyContent: 'space-evenly', paddingTop: '50px', backgroundColor: '#6D737F' }}>
                 <div style={{ width: '40%' }}>
-                    <div style={{ border: '1px solid black', padding: '5%', minHeight: '300px', maxHeight: '300px', overflowY: 'scroll' }}>
+                    <div style={{ border: '1px solid black', padding: '5%', minHeight: '300px', maxHeight: '300px', overflowY: 'scroll', backgroundColor: 'white' }}>
                         {chats.map((chat, i) => {
                             if (chat.userId === user.userId) {
                                 return <p key={i} style={{ color: 'red', textAlign: 'right' }}>{chat.msg}</p>;
@@ -221,7 +221,7 @@ export default function SingleLobby() {
                         })}
                         <div ref={messagesEndRef}></div>
                     </div>
-                    <div style={{ margin: '1%' }}>
+                    <div style={{ margin: '1% 0 1% 0' }}>
                         <Form onSubmit={addChat}>
                             <Form.Field>
                                 <input value={chatMessage} disabled={!disabled} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>
@@ -230,7 +230,7 @@ export default function SingleLobby() {
                         </Form>
                     </div>
                 </div>
-                <div style={{ width: '40%', border: '1px solid black', minHeight: '300px', maxHeight: '300px', textAlign: 'center', overflowY: 'scroll' }}>
+                <div style={{ width: '40%', border: '1px solid black', minHeight: '300px', maxHeight: '300px', textAlign: 'center', overflowY: 'scroll', backgroundColor: 'white' }}>
                     <div>
                         <h3>Lobby Size {currentUsers}/{lobbySize}</h3>
                         {full && <p>Lobby is full</p>}

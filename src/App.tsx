@@ -8,6 +8,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { UserContextProvider } from './Context/UserContext';
 import LobbyPage from './Pages/LobbyPage';
 import MyAccount from './Pages/MyAccount';
+import Footer from './Components/Footer'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path='/myaccount' component={MyAccount} />
           <Redirect from='*' to='/' />
         </Switch>
+        <Footer />
       </Router>
     </UserContextProvider>
   );

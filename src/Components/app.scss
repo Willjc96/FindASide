@@ -60,6 +60,7 @@ $secondaryColor: #F0FFF2;
     padding: 20px;
 }
 .single-game-container img{
+    border: transparent 5px solid;
     &:hover{
         border: white 5px solid;
         cursor: pointer;
@@ -117,5 +118,19 @@ $secondaryColor: #F0FFF2;
     text-align: center;
     margin-top: 100px;
     margin-left: 2%;
+}
+.footer-container {
+    background-color: $primaryColor;
+    display: flex;
+    min-height: 182px;
+    border: 2px #333333 solid;
+    padding: 5px;
+}
+.footer-container a {
+    cursor: pointer;
+    color: black;
+    &:hover {
+        color: $secondaryColor;
+    }
 }
 
