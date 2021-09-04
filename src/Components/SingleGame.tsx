@@ -49,7 +49,7 @@ export default function SingleGame() {
             if (auth.currentUser?.uid === lobbyId) {
                 setShow(false);
             }
-            let obj: lobbyObj = {};
+            let obj: lobbyObj = { };
             db.doc(lobbyId).collection('Users').get().then((res) => {
                 const filtered = res.docs.filter(doc => doc.data().lobbyName);
                 obj.lobbyName = filtered[0].data().lobbyName;
@@ -110,7 +110,7 @@ export default function SingleGame() {
                             <div className='lobby-table-container'>
                                 {auth.currentUser?.uid !== undefined && show
                                     &&
-                                    <div>
+                                    <div className='create-lobby-button'>
                                         <Button onClick={() => { userContext?.dispatch({ type: 'SET_MODAL_OPEN' }); }}>Create Lobby</Button>
                                     </div>
                                 }

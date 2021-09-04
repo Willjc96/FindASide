@@ -35,7 +35,7 @@ export default function AccountPage() {
                         </div>
                     </div>
                 </div>
-                : <div className='loading-container'>
+                : <div className='loading-container-account'>
                     <img src='https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif' alt='loader' />
                     <h3>Loading Account Details</h3>
                 </div>

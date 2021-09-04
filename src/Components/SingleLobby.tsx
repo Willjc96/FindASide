@@ -43,15 +43,18 @@ export default function SingleLobby() {
     const [currentUsers, setCurrentUsers] = useState('');
     const [joined, setJoined] = useState(false);
     const messagesEndRef = useRef<HTMLHeadingElement>(null);
-    const [newUsers, setNewUsers] = useState<[] | DataObj[]>([])
+    const [newUsers, setNewUsers] = useState<[] | DataObj[]>([]);
+    const [logged, setLogged] = useState(false);
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
 
     useEffect(() => {
         setTimeout(() => {
             if (auth.currentUser?.uid === undefined) {
                 setDisabled(true);
-            };
-        }, 1000);
+            } else {
+                setLogged(true)
+            }
+        }, 300);
     }, []);
 
     useEffect(() => {
@@ -222,8 +225,8 @@ export default function SingleLobby() {
                         })}
                         <div ref={messagesEndRef}></div>
                     </div>
-                    {(full && joined) || (!full) ?
-                        <div style={{ margin: '1% 0 1% 0' }}>
+                    {(full && joined) || (!full && logged) ?
+                        <div style={{ margin: '1% 0 2% 0' }}>
                             <Form onSubmit={addChat}>
                                 <Form.Field>
                                     <input value={chatMessage} disabled={disabled === false} onChange={(e) => setChatMessage(e.target.value)} placeholder='Enter Your Message'></input>

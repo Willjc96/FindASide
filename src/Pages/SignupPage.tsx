@@ -33,13 +33,17 @@ export default function LoginPage() {
                     })
                     .catch(
                         error => {
+                            console.log(error)
                             setErr(error.message);
                         }
                     );
             }
             else {
-                setErr('Passwords do not match');
+                setErr('Passwords Do Not Match');
             }
+        }
+        else {
+            setErr('Please Fill All Fields And Pick A Avatar')
         }
     };
 
@@ -53,33 +57,35 @@ export default function LoginPage() {
     };
 
     return (
-        <div className='full-page-container'>
-            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', textAlign: 'center', paddingTop: '50px' }}>
+        <div className='full-page-container-signup'>
+            <div style={{ textAlign: 'center', padding: '50px 0 50px 0' }}>
                 <Form onSubmit={signUpWithEmailAndPassword}>
-                    <Form.Field >
-                        <label style={{ textAlign: 'left' }}>
-                            USERNAME
-                        </label>
-                        <input placeholder='Enter Username' onChange={(e) => updateFields(e, setUsername)} />
-                    </Form.Field>
-                    <Form.Field >
-                        <label style={{ textAlign: 'left' }}>
-                            EMAIL ADDRESS
-                        </label>
-                        <input placeholder='Enter Email Address' onChange={(e) => updateFields(e, setEmail)} />
-                    </Form.Field>
-                    <Form.Field >
-                        <label style={{ textAlign: 'left' }}>
-                            PASSWORD
-                        </label>
-                        <input placeholder='Enter Password' onChange={(e) => updateFields(e, setPassword)} />
-                    </Form.Field>
-                    <Form.Field >
-                        <label style={{ textAlign: 'left' }}>
-                            CONFIRM PASSWORD
-                        </label>
-                        <input placeholder='Enter Password' onChange={(e) => updateFields(e, setConfirmPassword)} />
-                    </Form.Field>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Form.Field width={4}>
+                            <label style={{ textAlign: 'left' }}>
+                                USERNAME
+                            </label>
+                            <input placeholder='Enter Username' onChange={(e) => updateFields(e, setUsername)} />
+                        </Form.Field>
+                        <Form.Field width={4}>
+                            <label style={{ textAlign: 'left' }}>
+                                EMAIL ADDRESS
+                            </label>
+                            <input placeholder='Enter Email Address' onChange={(e) => updateFields(e, setEmail)} />
+                        </Form.Field>
+                        <Form.Field width={4}>
+                            <label style={{ textAlign: 'left' }}>
+                                PASSWORD
+                            </label>
+                            <input type='password' placeholder='Enter Password' onChange={(e) => updateFields(e, setPassword)} />
+                        </Form.Field>
+                        <Form.Field width={4}>
+                            <label style={{ textAlign: 'left' }}>
+                                CONFIRM PASSWORD
+                            </label>
+                            <input type='password' placeholder='Enter Password' onChange={(e) => updateFields(e, setConfirmPassword)} />
+                        </Form.Field>
+                    </div>
                     <Form.Field>
                         <label>
                             Select Avatar
@@ -94,7 +100,7 @@ export default function LoginPage() {
                             }
                         </div>
                     </Form.Field>
-                    {err ? <p>{err}</p> : null}
+                    {err && <h3 >{err}</h3>}
                     <Button type='submit'>Submit</Button>
                     <div style={{ paddingTop: '10px' }}>
                         <Button onClick={handleClick}>Login Page</Button>

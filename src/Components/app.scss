@@ -106,24 +106,27 @@ $secondaryColor: #F0FFF2;
 .single-game-page-container {
     display: flex;
     flex-direction: column;
+    padding-bottom: 50px;
 }
 .single-game-page-container h1 {
     text-align: center;
     padding-top: 50px;
+}
+.create-lobby-button {
+    align-self: center;
+    margin-bottom: 20px;
 }
 .single-game-page-image {
     width: 20%;
     align-self: center
 }
 .single-game-page-table-container{
-    width: 100%;
-    margin-left: 20px;
-    border-left: 1px solid black;
+    border: 1px solid black;
+    align-self: center;
     border-radius: 0.35rem;
 }
 .single-game-page-table-container table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
+    padding: 10px;
 }
 .page-container {
     background-color: $primaryColor;
@@ -133,10 +136,19 @@ $secondaryColor: #F0FFF2;
     background-color: $primaryColor;
     height: 100vh;
 }
+.full-page-container-signup {
+    background-color: $primaryColor;
+}
 .loading-container {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+.loading-container-account {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
 }
 .loading-container h3 {
     text-align: center;
@@ -163,7 +175,6 @@ $secondaryColor: #F0FFF2;
     justify-content: space-evenly;
     padding-top: 50px;
     background-color: $primaryColor;
-    height: 54vh;
 }
 .lobby-content-box{
     border: 1px solid black;
@@ -180,6 +191,13 @@ $secondaryColor: #F0FFF2;
     max-height: 300px;
     overflow-y: scroll;
     background-color: white;
+    text-align: center;
+}
+.lobby-table-container {
+    display: flex;
+    flex-direction: column;
+}
+.lobby-table-container h3 {
     text-align: center;
 }
 .account-header{
