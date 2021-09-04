@@ -1,15 +1,8 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router';
 import { firestore, auth } from '../Config/firebase';
 import { useHistory } from 'react-router-dom';
 import { Popup, Icon, Form, Button } from 'semantic-ui-react';
-
-interface DocumentData {
-    username?: string;
-    lobbyName?: string;
-    userId?: string;
-}
-
 interface params {
     gameId: string;
     lobbyId: string;
@@ -33,11 +26,12 @@ interface DataObj {
     createdAt?: string;
     userId?: string;
     username?: string;
+    lobbyName?: string;
 }
+
 
 export default function SingleLobby() {
     const params: params = useParams();
-    const [usersArray, setUsersArray] = useState<[] | DocumentData[]>([]);
     const [disabled, setDisabled] = useState(false);
     const [full, setFull] = useState(false);
     const [host, setHost] = useState(false);
@@ -49,23 +43,8 @@ export default function SingleLobby() {
     const [currentUsers, setCurrentUsers] = useState('');
     const [joined, setJoined] = useState(false);
     const messagesEndRef = useRef<HTMLHeadingElement>(null);
+    const [newUsers, setNewUsers] = useState<[] | DataObj[]>([])
     const user = { username: auth.currentUser?.displayName, gameId: params.gameId, userId: auth.currentUser?.uid };
-
-
-    const getDatabaseInfo = useCallback(async () => {
-        const firstCollection = await firestore.collection(params.gameId);
-        firstCollection.doc(params.lobbyId).collection('Users').get().then((res) => {
-            const people = res.docs.map((doc) => {
-                return doc.data();
-            });
-            setUsersArray(people);
-        });
-
-    }, [params.gameId, params.lobbyId]);
-
-    useEffect(() => {
-        getDatabaseInfo();
-    }, [getDatabaseInfo]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -109,7 +88,7 @@ export default function SingleLobby() {
             }
         };
         check();
-    }, [params.gameId, params.lobbyId, user.userId]);
+    }, [params.gameId, params.lobbyId, user.userId, newUsers]);
 
 
     const joinLobby = async () => {
@@ -118,10 +97,7 @@ export default function SingleLobby() {
         if (check === undefined) {
             await firstCollection.doc(params.lobbyId).collection('Users').doc(user.userId).set(user);
             setDisabled(true);
-        } else {
-            console.log('already joined');
         }
-        window.location.reload();
     };
 
     const deleteLobby = async () => {
@@ -134,9 +110,8 @@ export default function SingleLobby() {
 
     const removeUser = async (username: string | undefined) => {
         if (typeof username === 'string') {
-            const filter = usersArray.filter(item => item.username === username);
+            const filter = newUsers.filter(item => item.username === username);
             await firestore.collection(params.gameId).doc(params.lobbyId).collection('Users').doc(filter[0].userId).delete();
-            window.location.reload();
         }
     };
 
@@ -153,6 +128,19 @@ export default function SingleLobby() {
                     id: doc.id,
                 }));
                 setChats(data);
+            });
+            return unsubscribe;
+        }
+    }, [params.lobbyId, params.gameId]);
+
+    useEffect(() => {
+        if (firestore) {
+            const unsubscribe = firestore.collection(params.gameId).doc(params.lobbyId).collection('Users').onSnapshot(querySnapshot => {
+                const data = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                setNewUsers(data);
             });
             return unsubscribe;
         }
@@ -194,16 +182,16 @@ export default function SingleLobby() {
     }, [chats]);
 
     useEffect(() => {
-        usersArray.forEach((item) => {
+        newUsers.forEach((item) => {
             if (auth.currentUser?.uid === item.userId) {
                 setJoined(true);
             }
         });
-    }, [usersArray]);
+    }, [newUsers]);
 
     return (
         <div>
-            {usersArray
+            {newUsers
                 ?
                 <>
                 </>
@@ -255,7 +243,7 @@ export default function SingleLobby() {
                         </div>
                         <div style={{ paddingTop: '10px' }}>
                             <h3 style={{ textDecoration: 'underline' }}>Members</h3>
-                            {usersArray.map((userObj) => {
+                            {newUsers.map((userObj) => {
                                 if (host) {
                                     return (
                                         <div key={userObj.userId} style={{ display: 'flex', justifyContent: 'center' }}>
