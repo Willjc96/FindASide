@@ -97,7 +97,7 @@ export const games = [
     },
     {
         name: 'Mario Kart 8 Deluxe',
-        img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTIE_74E6uQigOh19E24Knf8XdzxOFl4ebnb5-YCwIfZRN5HQspZuUsUtwlzsQc8_9eYs&usqp=CAU',
+        img: 'https://www.teamvvv.com/wp-content/uploads/2017/08/mario_kart_8_deluxe_hero_art.jpg.jpg',
         id: 17,
         genre: 'Racing',
     },
