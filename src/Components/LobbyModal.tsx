@@ -12,6 +12,7 @@ function LobbyModal() {
     const [lobbySize, setLobbySize] = useState('');
     const [lobbyDif, setDifficulty] = useState('');
     const [lobbyConsole, setConsole] = useState('');
+    const [error, setError] = useState('');
     const user = { name: auth.currentUser?.displayName, game: id[0], id: auth.currentUser?.uid };
 
 
@@ -34,7 +35,7 @@ function LobbyModal() {
                 window.location.reload();
             }, 10);
         } else {
-            console.log('enter lobby name, description and size');
+            setError('Please fill all fields');
         }
     };
 
@@ -63,12 +64,17 @@ function LobbyModal() {
         { key: "Playstation", value: "Playstation", text: "Playstation" },
         { key: "Nintendo Switch", value: "Nintendo Switch", text: "Nintendo Switch" },
         { key: "PC", value: "PC", text: "PC" },
+        { key: "Mobile", value: "Mobile", text: "Mobile" },
 
     ];
 
     const handleMultiInputs = (event: React.SyntheticEvent, setStateFunction: React.Dispatch<React.SetStateAction<string>>) => {
         let target = event.target as HTMLInputElement;
-        setStateFunction(target.innerText);
+        if (target.innerText.length === 51) {
+            setStateFunction('Noob');
+        } else {
+            setStateFunction(target.innerText);
+        }
     };
 
     return (
@@ -88,21 +94,32 @@ function LobbyModal() {
                     <Input onChange={(e) => handleInputs(e, setLobbyName)} placeholder='Enter Lobby Name' />
                 </Modal.Description>
                 <Modal.Description>
-                    <p>Enter Lobby Description</p>
-                    <Input onChange={(e) => handleInputs(e, setLobbyDescription)} style={{ width: '100%' }} placeholder='Enter Lobby Description' />
+                    <div style={{ paddingTop: '15px' }}>
+                        <p>Enter Lobby Description</p>
+                        <Input onChange={(e) => handleInputs(e, setLobbyDescription)} style={{ width: '100%' }} placeholder='Enter Lobby Description' />
+                    </div>
                 </Modal.Description>
                 <Modal.Description>
-                    <p>Enter Lobby Size (Min 2 - Max 30)</p>
-                    <Input type='number' min="2" max="30" onChange={(e) => handleInputs(e, setLobbySize)} style={{ width: '100%' }} placeholder='Enter Lobby Size' />
+                    <div style={{ paddingTop: '15px' }}>
+                        <p>Enter Lobby Size (Min 2 - Max 30)</p>
+                        <Input type='number' min="2" max="30" onChange={(e) => handleInputs(e, setLobbySize)} style={{ width: '100%' }} placeholder='Enter Lobby Size' />
+                    </div>
                 </Modal.Description>
                 <Modal.Description>
-                    <p>Pick Your Skill Level</p>
-                    <Select placeholder="Select your difficulty" options={difficultyOptions} name='difficulties' onChange={(e) => handleMultiInputs(e, setDifficulty)} />
+                    <div style={{ paddingTop: '15px' }}>
+                        <p>Pick Your Skill Level</p>
+                        <Select placeholder="Select your difficulty" options={difficultyOptions} name='difficulties' onChange={(e) => handleMultiInputs(e, setDifficulty)} />
+                    </div>
                 </Modal.Description>
                 <Modal.Description>
-                    <p>Pick Your Console</p>
-                    <Select placeholder="Select your console" options={consoleOptions} name='consoles' onChange={(e) => handleMultiInputs(e, setConsole)} />
+                    <div style={{ paddingTop: '15px' }}>
+                        <p>Pick Your Console</p>
+                        <Select placeholder="Select your console" options={consoleOptions} name='consoles' onChange={(e) => handleMultiInputs(e, setConsole)} />
+                    </div>
                 </Modal.Description>
+                <div style={{ paddingTop: '15px' }}>
+                    {error && <h4 style={{ color: 'red' }}>{error}</h4>}
+                </div>
             </Modal.Content>
             <Modal.Actions>
                 <Button color='black' onClick={() => userContext?.dispatch({

@@ -159,8 +159,8 @@ $secondaryColor: #F0FFF2;
     background-color: $primaryColor;
     display: flex;
     min-height: 182px;
-    border: 2px #333333 solid;
-    padding: 5px;
+    border-top: 2px #333333 solid;
+    padding: 10px;
 }
 .footer-container a {
     cursor: pointer;
