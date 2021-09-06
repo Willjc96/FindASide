@@ -52,7 +52,7 @@ export default function SingleLobby() {
             if (auth.currentUser?.uid === undefined) {
                 setDisabled(true);
             } else {
-                setLogged(true)
+                setLogged(true);
             }
         }, 300);
     }, []);
@@ -180,7 +180,7 @@ export default function SingleLobby() {
 
     useEffect(() => {
         if (null !== messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: 'nearest', inline: 'start' });
         }
     }, [chats]);
 
