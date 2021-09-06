@@ -228,6 +228,11 @@ $secondaryColor: #F0FFF2;
 .boxes-container {
     width: 40%;
 }
+.full-page-container-lobby {
+    height: 100%;
+    background-color: $primaryColor;
+    padding-bottom: 50px;
+}
 @media screen and (max-width: 1000px) {
     .logo-container {
         height: 60%
@@ -253,5 +258,13 @@ $secondaryColor: #F0FFF2;
     }
     .boxes-container {
         width: 100%;
+    }
+    .full-page-container-lobby {
+        height: 100% ;
+        background-color: $primaryColor;
+        padding-bottom: 50px;
+    }
+    .lobby-headers {
+        display: none;
     }
 }
