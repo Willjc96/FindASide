@@ -61,6 +61,7 @@ function LobbyModal() {
     const consoleOptions = [
         { key: "Xbox", value: "Xbox", text: "Xbox" },
         { key: "Playstation", value: "Playstation", text: "Playstation" },
+        { key: "Nintendo Switch", value: "Nintendo Switch", text: "Nintendo Switch" },
         { key: "PC", value: "PC", text: "PC" },
 
     ];
