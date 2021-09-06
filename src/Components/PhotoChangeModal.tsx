@@ -7,7 +7,7 @@ import { images } from '../AvatarList';
 export default function PhotoChangeModal() {
     const userContext = useContext(UserContext);
     const [avatar, setAvatar] = useState('');
-    const [error, setError] = useState('')
+    const [error, setError] = useState('');
 
     const updateProfilePic = () => {
         if (typeof auth.currentUser?.photoURL === 'string' && avatar !== '') {
@@ -17,7 +17,7 @@ export default function PhotoChangeModal() {
                 userContext?.dispatch({ type: 'SET_MODAL_CLOSED' });
             });
         } else {
-            setError('Please pick a avatar or cancel to keep original');
+            setError('Please pick an avatar or click cancel to keep the original');
         }
     };
     return (

@@ -18,6 +18,10 @@ export const images = [
         url: 'https://avatarfiles.alphacoders.com/163/thumb-1920-163940.jpg',
     },
     {
+        url: 'https://64.media.tumblr.com/045f5440709b389dbd184ae75a7eab9f/e64a90fdbf1b340e-78/s1280x1920/eb71e85f213d6d7f69b7a553f9560dab5188f7a8.png',
+    },
+
+    {
         url: 'https://avatarfiles.alphacoders.com/262/thumb-1920-262106.jpg',
     },
     {
@@ -88,6 +92,9 @@ export const images = [
     },
     {
         url: 'https://avatarfiles.alphacoders.com/166/thumb-1920-166155.jpg',
+    },
+    {
+        url: 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d3b1fdc6-acb9-4aaf-83b2-ab3c5a6935f4/depi2uu-d1a1fa8e-69d9-4599-a026-82a77ae2b6ca.png/v1/fill/w_400,h_400,strp/pikachu_switch_icon_by_pokemonmain05_depi2uu-400t.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTU3IiwicGF0aCI6IlwvZlwvZDNiMWZkYzYtYWNiOS00YWFmLTgzYjItYWIzYzVhNjkzNWY0XC9kZXBpMnV1LWQxYTFmYThlLTY5ZDktNDU5OS1hMDI2LTgyYTc3YWUyYjZjYS5wbmciLCJ3aWR0aCI6Ijw9NTU3In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.xrWF0dB4S90VlXLuMj6JEo9pIXnbTKFRyTUUibOE_7s',
     },
     {
         url: 'https://avatarfiles.alphacoders.com/108/thumb-1920-108692.jpg',
