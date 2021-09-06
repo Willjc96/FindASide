@@ -225,6 +225,9 @@ $secondaryColor: #F0FFF2;
     align-self: center;
     margin: 0 50px 0 50px
 }
+.boxes-container {
+    width: 40%;
+}
 @media screen and (max-width: 1000px) {
     .logo-container {
         height: 60%
@@ -242,6 +245,12 @@ $secondaryColor: #F0FFF2;
     }
     .account-details-container{
         margin-left: 0;
+        width: 100%;
+    }
+    .lobby-container {
+        display: block;
+    }
+    .boxes-container {
         width: 100%;
     }
 }

@@ -202,7 +202,7 @@ export default function SingleLobby() {
                 <p>loading</p>
             }
             <div className='lobby-container'>
-                <div style={{ width: '40%' }}>
+                <div className='boxes-container'>
                     <div className='lobby-content-box' >
                         {chats.map((chat, i) => {
                             if (chat.userId === user.userId) {
@@ -238,7 +238,7 @@ export default function SingleLobby() {
                         null
                     }
                 </div>
-                <div style={{ width: '40%' }}>
+                <div className='boxes-container'>
                     <div className='lobby-content-box-right'>
                         <div>
                             <h3>Lobby Size {currentUsers}/{lobbySize}</h3>
