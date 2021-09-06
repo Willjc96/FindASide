@@ -40,7 +40,7 @@ export default function Header() {
     return (
         <>
             <div className='header-container'>
-                <div>
+                <div className='logo-container'>
                     <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
                 </div>
                 <div style={{ display: 'flex' }}>
@@ -55,7 +55,7 @@ export default function Header() {
                                 </>
                                 : null
                             }
-                            <Button style={{ height: '25%', alignSelf: 'center', margin: '0 50px 0 50px' }} onClick={handleLogOut}>LOG OUT</Button>
+                            <Button className='logout-button' onClick={handleLogOut}>LOG OUT</Button>
                         </>
                         :
                         <div className='header-p-container'>

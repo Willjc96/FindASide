@@ -220,3 +220,28 @@ $secondaryColor: #F0FFF2;
 .error-text {
     color: red;
 }
+.logout-Button {
+    height: 25%;
+    align-self: center;
+    margin: 0 50px 0 50px
+}
+@media screen and (max-width: 1000px) {
+    .logo-container {
+        height: 60%
+    }
+    .header-container {
+        overflow: scroll;
+    }
+    .logout-Button {
+        margin: 0;
+        height: fit-content;
+    }
+    .footer-container {
+        display: revert;
+        min-height: unset;
+    }
+    .account-details-container{
+        margin-left: 0;
+        width: 100%;
+    }
+}
