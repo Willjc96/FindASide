@@ -41,7 +41,12 @@ export default function Header() {
         <>
             <div className='header-container'>
                 <div className='logo-container'>
-                    <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
+                    <div>
+                        <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
+                    </div>
+                    <div>
+                        <h1 style={{ marginTop: '25%', marginLeft: '20px' }}>Find-A-Side</h1>
+                    </div>
                 </div>
                 <div style={{ display: 'flex' }}>
                     {loading || userContext?.state.logged
@@ -50,12 +55,14 @@ export default function Header() {
                             {typeof firebase.auth().currentUser?.photoURL === 'string' ?
                                 <>
                                     <Link to='/myaccount'>
-                                        <Popup content='Click to go to your account' trigger={<img src={firebase.auth().currentUser?.photoURL?.toString()} style={{ maxHeight: '160px' }} alt='avatar' />} />
+                                        <Popup content='Click to go to your account' trigger={<img src={firebase.auth().currentUser?.photoURL?.toString()} className='header-profile-image' alt='avatar' />} />
                                     </Link>
                                 </>
                                 : null
                             }
-                            <Button className='logout-button' onClick={handleLogOut}>LOG OUT</Button>
+                            <div className='logout-button-container'>
+                                <Button className='logout-button' onClick={handleLogOut}>LOG OUT</Button>
+                            </div>
                         </>
                         :
                         <div className='header-p-container'>

@@ -49,7 +49,7 @@ export default function SingleGame() {
             if (auth.currentUser?.uid === lobbyId) {
                 setShow(false);
             }
-            let obj: lobbyObj = { };
+            let obj: lobbyObj = {};
             db.doc(lobbyId).collection('Users').get().then((res) => {
                 const filtered = res.docs.filter(doc => doc.data().lobbyName);
                 obj.lobbyName = filtered[0].data().lobbyName;
@@ -89,7 +89,7 @@ export default function SingleGame() {
     }, [id]);
 
     return (
-        <div>
+        <div className={lobbyList.length > 0 ? 'full-page-container-lobby' : 'full-page-container-lobby-empty'}>
             {userContext?.state.modalOpen && <LobbyModal />}
             {selectedGame
                 ?
