@@ -257,6 +257,9 @@ $secondaryColor: #F0FFF2;
 .logo-container h1 {
     color: $secondaryColor;
 }
+.bold-span {
+    font-weight: 900;
+}
 
 @media screen and (max-width: 1000px) {
     .logo-container {
@@ -311,5 +314,10 @@ $secondaryColor: #F0FFF2;
     .header-p-container p{
         font-size: 18px;
         padding-right: 12px;
+    }
+}
+@media screen and (max-width: 767px) {
+    .table-header {
+        display: none !important;
     }
 }
