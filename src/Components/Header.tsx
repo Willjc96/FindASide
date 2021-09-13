@@ -40,12 +40,12 @@ export default function Header() {
     return (
         <>
             <div className='header-container'>
-                <div className='logo-container'>
+                <div className='logo-container' onClick={() => history.push('/')}>
                     <div>
-                        <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
+                        <img src={Logo} alt='Logo' />
                     </div>
                     <div>
-                        <h1 style={{ marginTop: '25%', marginLeft: '20px' }}>Find-A-Side</h1>
+                        <h1 style={{ marginTop: '25%', marginLeft: '10px' }}>Find-A-Side</h1>
                     </div>
                 </div>
                 <div style={{ display: 'flex' }}>

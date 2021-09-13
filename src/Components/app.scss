@@ -172,6 +172,9 @@ $secondaryColor: #F0FFF2;
 }
 .logo-container {
     display: flex;
+    &:hover{
+        cursor: pointer;  
+      }
 }
 .lobby-container {
     display: flex;
