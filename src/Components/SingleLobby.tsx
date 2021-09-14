@@ -235,7 +235,7 @@ export default function SingleLobby() {
                             </Form>
                         </div>
                         :
-                        null
+                        <input placeholder='Please log in to send a message...' disabled style={{ width: '100%', margin: '10px 0px 10px 0px', padding: '10px 0px 10px 20px' }} />
                     }
                 </div>
                 <div className='boxes-container'>

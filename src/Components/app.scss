@@ -191,6 +191,7 @@ $secondaryColor: #F0FFF2;
     max-height: 300px;
     overflow-y: scroll;
     background-color: white;
+    border-radius: 1rem
 }
 .lobby-content-box-right{
     border: 1px solid black;
@@ -200,6 +201,7 @@ $secondaryColor: #F0FFF2;
     overflow-y: scroll;
     background-color: white;
     text-align: center;
+    border-radius: 1rem
 }
 .lobby-table-container {
     display: flex;
@@ -293,7 +295,8 @@ $secondaryColor: #F0FFF2;
         height: 100%;
     }
     .boxes-container {
-        width: 100%;
+        width: 95%;
+        margin: 2.5%;
     }
     .full-page-container-lobby {
         height: 100% ;
