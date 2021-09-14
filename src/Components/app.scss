@@ -286,7 +286,8 @@ $secondaryColor: #F0FFF2;
     }
     .lobby-container {
         display: block;
-        padding-bottom: 100px;
+        padding-bottom: 10px;
+        height: 100%;
     }
     .boxes-container {
         width: 100%;
@@ -306,7 +307,8 @@ $secondaryColor: #F0FFF2;
     }
     .single-game-page-image {
         width: 50%;
-        align-self: center
+        align-self: center;
+        padding-bottom: 10px;
     }
     .logo-container h1 {
         font-size: 18px;
@@ -314,6 +316,13 @@ $secondaryColor: #F0FFF2;
     .header-p-container p{
         font-size: 18px;
         padding-right: 12px;
+    }
+    .loading-container img {
+        height: 100px;
+        padding-left: 2%;;
+    }
+    .single-game-page-container {
+        padding-bottom: 0;
     }
 }
 @media screen and (max-width: 767px) {
